@@ -32,6 +32,13 @@ public class Proveedor {
         return nombre;
     }
 
+    public Proveedor(String nombre, String direccion, String telefono, String correo) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.correo = correo;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

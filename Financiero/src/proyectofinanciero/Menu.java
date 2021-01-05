@@ -45,7 +45,6 @@ public class Menu extends javax.swing.JFrame {
         jMenu18 = new javax.swing.JMenu();
         jMenu19 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -100,9 +99,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenu7);
-
-        jMenu6.setText("Kardex");
-        jMenu5.add(jMenu6);
 
         jMenuBar1.add(jMenu5);
 
@@ -245,7 +241,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
