@@ -87,6 +87,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu5.add(jMenu20);
 
         jMenu18.setText("Categorias");
+        jMenu18.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu18MouseClicked(evt);
+            }
+        });
         jMenu5.add(jMenu18);
 
         jMenu19.setText("Marcas");
@@ -198,6 +203,12 @@ public class Menu extends javax.swing.JFrame {
         m = new Marca();
         m.setVisible(true);
     }//GEN-LAST:event_jMenu19MouseClicked
+
+    private void jMenu18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu18MouseClicked
+        // TODO add your handling code here:
+        Category cat = new Category();
+        cat.setVisible(true);
+    }//GEN-LAST:event_jMenu18MouseClicked
 
     /**
      * @param args the command line arguments

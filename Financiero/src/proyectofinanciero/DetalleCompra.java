@@ -357,8 +357,7 @@ public class DetalleCompra extends javax.swing.JFrame {
         // TODO add your handling code here:
         DAO_detalleCompra DAO_detCompra = new DAO_detalleCompra();
 //        DAO_detCompra.GuardarDetallePartida();
-        JOptionPane.showMessageDialog(null, "Datos Guardados con éxito");
-        dispose();
+        JOptionPane.showMessageDialog(this, "Datos Guardados con éxito");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-01-2021 a las 07:25:18
+-- Tiempo de generación: 07-01-2021 a las 18:11:37
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -54,15 +54,17 @@ INSERT INTO `abonos` (`id_abono`, `id_detventa`, `fecha`, `hora`, `abono`, `mora
 
 CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL,
-  `descripcion` varchar(75) COLLATE utf8_spanish_ci NOT NULL
+  `descripcion` varchar(75) COLLATE utf8_spanish_ci NOT NULL,
+  `catNombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `categoria`
 --
 
-INSERT INTO `categoria` (`id_categoria`, `descripcion`) VALUES
-(1, 'BAÑO');
+INSERT INTO `categoria` (`id_categoria`, `descripcion`, `catNombre`) VALUES
+(1, 'BAÑO, PISOS, ETC', 'LIMPIEZA'),
+(2, 'PLANCHAS, OLLAS, ETC', 'COCINA');
 
 -- --------------------------------------------------------
 
@@ -396,7 +398,7 @@ ALTER TABLE `abonos`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes`
@@ -426,7 +428,7 @@ ALTER TABLE `detventa`
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `margenganancia`
