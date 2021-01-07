@@ -1,9 +1,5 @@
 package DAO;
 
-/**
- *
- * @author Monica
- */
 import Conexion.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

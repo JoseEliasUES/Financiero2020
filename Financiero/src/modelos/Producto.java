@@ -15,13 +15,13 @@ public class Producto {
     private String nombre;
     private String modelo;
     private int stock;
-    private Marca marca;
+    private MarcaV marca;
     private Categoria categoria;
     
     private int cantidad;
     private double precio;
 
-    public Producto(int id, String nombre, String modelo, int stock, Marca marca, Categoria categoria) {
+    public Producto(int id, String nombre, String modelo, int stock, MarcaV marca, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
         this.modelo = modelo;
@@ -72,11 +72,11 @@ public class Producto {
         this.stock = stock;
     }
 
-    public Marca getMarca() {
+    public MarcaV getMarca() {
         return marca;
     }
 
-    public void setMarca(Marca marca) {
+    public void setMarca(MarcaV marca) {
         this.marca = marca;
     }
 

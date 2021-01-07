@@ -63,6 +63,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Marcas"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu19MouseClicked"/>
+              </Events>
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu7">
               <Properties>

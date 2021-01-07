@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-01-2020 a las 07:39:56
--- Versión del servidor: 10.4.6-MariaDB
--- Versión de PHP: 7.3.9
+-- Tiempo de generación: 07-01-2021 a las 07:25:18
+-- Versión del servidor: 10.1.31-MariaDB
+-- Versión de PHP: 7.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -191,15 +191,18 @@ INSERT INTO `empleados` (`dui`, `nombres`, `apellidos`, `sexo`, `fechaNac`, `tel
 
 CREATE TABLE `marca` (
   `id_marca` int(11) NOT NULL,
-  `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL
+  `nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `marca`
 --
 
-INSERT INTO `marca` (`id_marca`, `nombre`) VALUES
-(1, 'GARCILLEJA');
+INSERT INTO `marca` (`id_marca`, `nombre`, `descripcion`) VALUES
+(1, 'GARCILLEJA', 'No te conozco, lo siento'),
+(2, 'SAMSUNG', 'Una empresa coreana'),
+(3, 'LG', 'Otros coreanos, o eso creo');
 
 -- --------------------------------------------------------
 
@@ -266,8 +269,8 @@ CREATE TABLE `proveedor` (
 
 INSERT INTO `proveedor` (`id_proveedor`, `nombre`, `direccion`, `telefono`, `correo`) VALUES
 (1, 'PROPAC', 'Col. Navarra 2', '7342-4241', 'propac@gmail.com'),
-(2, 'EL SURCO', 'San Vicente', '7834-6894', 'elsurco@gmail.com'),
-(3, 'TECNYMED', 'Col. España', '7342-8935', 'tecnymed@gmail.com'),
+(2, 'EL SURCO SA DE CV', 'San Vicente y Usulutan', '7834-6894', 'elsurco@gmail.com'),
+(3, 'TECNYMED EL SALVADOR', 'Col. España', '7342-8935', 'tecnymed@gmail.com'),
 (4, 'THADER', 'Col. Medica', '7424-5245', 'thader@gmail.com');
 
 -- --------------------------------------------------------
@@ -423,7 +426,7 @@ ALTER TABLE `detventa`
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `margenganancia`
@@ -441,7 +444,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `proveedor`
 --
 ALTER TABLE `proveedor`
-  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=423431235;
+  MODIFY `id_proveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`

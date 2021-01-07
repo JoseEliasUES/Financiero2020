@@ -18,7 +18,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public static DetalleCompra dc;
     public static Proveedores p;
-
+    public static Marca m;
     public Menu() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -90,6 +90,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu5.add(jMenu18);
 
         jMenu19.setText("Marcas");
+        jMenu19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu19MouseClicked(evt);
+            }
+        });
         jMenu5.add(jMenu19);
 
         jMenu7.setText("Compras");
@@ -187,6 +192,12 @@ public class Menu extends javax.swing.JFrame {
         Empleados emp = new Empleados();
         emp.setVisible(true);
     }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenu19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu19MouseClicked
+        // TODO add your handling code here:
+        m = new Marca();
+        m.setVisible(true);
+    }//GEN-LAST:event_jMenu19MouseClicked
 
     /**
      * @param args the command line arguments
