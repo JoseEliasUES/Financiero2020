@@ -45,6 +45,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu18 = new javax.swing.JMenu();
         jMenu19 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
+        jMenu21 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -109,6 +110,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenu7);
+
+        jMenu21.setText("Productos");
+        jMenu21.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu21MouseClicked(evt);
+            }
+        });
+        jMenu5.add(jMenu21);
 
         jMenuBar1.add(jMenu5);
 
@@ -210,6 +219,12 @@ public class Menu extends javax.swing.JFrame {
         cat.setVisible(true);
     }//GEN-LAST:event_jMenu18MouseClicked
 
+    private void jMenu21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu21MouseClicked
+        // TODO add your handling code here:
+        Productos p = new Productos();
+        p.setVisible(true);
+    }//GEN-LAST:event_jMenu21MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -260,6 +275,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu19;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu20;
+    private javax.swing.JMenu jMenu21;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

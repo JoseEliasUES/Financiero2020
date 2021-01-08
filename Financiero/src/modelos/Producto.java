@@ -17,7 +17,7 @@ public class Producto {
     private int stock;
     private MarcaV marca;
     private Categoria categoria;
-    
+    private String descripcion;
     private int cantidad;
     private double precio;
 
@@ -30,12 +30,49 @@ public class Producto {
         this.categoria = categoria;
     }
 
+    public Producto(String nombre, String modelo, int stock, MarcaV marca, Categoria categoria, int cantidad, double precio) {
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.stock = stock;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.cantidad = cantidad;
+        this.precio = precio;
+    }
+
+    public Producto(String nombre, String modelo, MarcaV marca, Categoria categoria, String descripcion) {
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+    }
+
     public Producto(int id, String nombre, int cantidad, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.precio = precio;
     }
+
+    public Producto(String nombre, String modelo, MarcaV marca, Categoria categoria, double precio) {
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.precio = precio;
+    }
+
+    public Producto(String nombre, String modelo, int stock, MarcaV marca, Categoria categoria, String descripcion) {
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.stock = stock;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+    }
+
+
 
     public Producto() {
     }
@@ -102,6 +139,14 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }
