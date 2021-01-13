@@ -78,8 +78,8 @@ public class DAO_Categoria {
             Statement st = this.conexion.getConexion().createStatement();
             st.executeUpdate("INSERT INTO categoria(descripcion,\n"
                     + "catNombre)\n"
-                    + "VALUES('" + marc.getDescripcion()+ "',\n"
-                    + "'" + marc.getnCat()+ "')");
+                    + "VALUES('" + marc.getDescripcion() + "',\n"
+                    + "'" + marc.getnCat() + "')");
             conexion.cerrarConexiones();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -93,10 +93,10 @@ public class DAO_Categoria {
             this.conexion.getConexion();
             Statement st = this.conexion.getConexion().createStatement();
             st.executeUpdate("UPDATE CATEGORIA\n"
-                    + "SET catNombre ='" + marc.getnCat()+ "', \n"
+                    + "SET catNombre ='" + marc.getnCat() + "', \n"
                     + "descripcion ='" + marc.getDescripcion() + "'\n"
                     + "WHERE\n"
-                    + "id_categoria='" + marc.getIdCat()+ "';");
+                    + "id_categoria='" + marc.getIdCat() + "';");
             conexion.cerrarConexiones();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -114,5 +114,16 @@ public class DAO_Categoria {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public Categoria busqC(Integer nombre) throws SQLException {
+        DAO_Categoria daoM = new DAO_Categoria();
+        for (Categoria x : daoM.getCategoria()) {
+            if (nombre.equals(x.getIdCat())) {
+                Categoria cat = x;
+                return cat;
+            }
+        }
+        return null;
     }
 }

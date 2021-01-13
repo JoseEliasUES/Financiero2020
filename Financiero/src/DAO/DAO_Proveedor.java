@@ -121,4 +121,25 @@ public class DAO_Proveedor {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+        public Proveedor getProveedorId(Integer nombre) throws SQLException {
+        Proveedor pr = new Proveedor();
+        try {
+            this.conexion.getConexion();
+            Statement st = this.conexion.getConexion().createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM proveedor where id_proveedor = '" + nombre + "'");
+
+            while (rs.next()) {
+                pr.setId(rs.getInt(1));
+                pr.setNombre(rs.getString(2));
+                pr.setTelefono(rs.getString(3));
+                pr.setDireccion(rs.getString(4));
+                pr.setCorreo(rs.getString(5));
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return pr;
+    }
 }

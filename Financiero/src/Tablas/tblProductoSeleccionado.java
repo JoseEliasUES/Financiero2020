@@ -27,7 +27,7 @@ public class tblProductoSeleccionado extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -42,6 +42,8 @@ public class tblProductoSeleccionado extends AbstractTableModel {
             case 2:
                 return prov.getCantidad();
             case 3:
+                return prov.getPrecio()/prov.getCantidad();
+            case 4:
                 return prov.getPrecio();
         }
         return null;
@@ -57,8 +59,10 @@ public class tblProductoSeleccionado extends AbstractTableModel {
                 return "NOMBRE DEL PRODUCTO";
             case 2:
                 return "CÁNTIDAD";
-                case 3:
-                return "PRECIO";
+            case 3:
+                return "PRECIO UNITARIO";
+            case 4:
+                return "SUBTOTAL";
         }
         return null;
     }

@@ -6,6 +6,7 @@
 package proyectofinanciero;
 
 import Conexion.Conexion;
+import DAO.DAO_Proveedor;
 import DAO.DAO_detalleCompra;
 import Tablas.tblProductoSeleccionado;
 import java.sql.Connection;
@@ -22,13 +23,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import modelos.DetalleCompra;
 import modelos.Producto;
+import modelos.Proveedor;
 
 /**
  *
  * @author Josue
  */
-public class DetalleCompra extends javax.swing.JFrame {
+public class DCompra extends javax.swing.JFrame {
 
     /**
      * Creates new form DetalleCompra
@@ -39,24 +42,27 @@ public class DetalleCompra extends javax.swing.JFrame {
     tblProductoSeleccionado modeloTabla;
     TblProducto tblProd;
     Proveedores prov;
-
-    public DetalleCompra() {
+    String provSel;
+    Integer idProv;
+    SimpleDateFormat sd;
+    Date fec;//fecha compra
+    String dd;
+    String d;
+    public DCompra() {
         initComponents();
+        provSel = null;
         productosCompra = new ArrayList<>();
         productos = new Producto();
         Calendar fecha = new GregorianCalendar();
-        int day = fecha.get(Calendar.DAY_OF_MONTH);
-        int month = fecha.get(Calendar.MONTH);
-        int year = fecha.get(Calendar.YEAR);
-        String dd = day + "-" + month + "-" + year;
-        Date date = null;
+        d = "dd-MM-yyyy";
+        sd = new SimpleDateFormat(d);
+        dd = sd.format(fecha.getTime());
         try {
-            date = new SimpleDateFormat("dd-MM-yyyy").parse(dd);
+            fec = sd.parse(dd);
         } catch (ParseException ex) {
-            Logger.getLogger(DetalleCompra.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jCalendar.setDate(date);
-
+        jCalendar.setDate(fec);
         modelo = new DefaultComboBoxModel();
         llena_combo();
     }
@@ -145,6 +151,11 @@ public class DetalleCompra extends javax.swing.JFrame {
         jLabel3.setText("Proveedor");
 
         cmbProveedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione..." }));
+        cmbProveedor.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbProveedorItemStateChanged(evt);
+            }
+        });
 
         jButton3.setText("Nuevo");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -322,8 +333,10 @@ public class DetalleCompra extends javax.swing.JFrame {
 
     private void btnSelecProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecProdActionPerformed
         // TODO add your handling code here:
-        tblProd = new TblProducto();
-        tblProd.setVisible(true);
+        if (provSel != null) {
+            tblProd = new TblProducto(idProv);
+            tblProd.setVisible(true);
+        }
     }//GEN-LAST:event_btnSelecProdActionPerformed
 
     private void total() {
@@ -355,9 +368,18 @@ public class DetalleCompra extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        DAO_detalleCompra DAO_detCompra = new DAO_detalleCompra();
-//        DAO_detCompra.GuardarDetallePartida();
-        JOptionPane.showMessageDialog(this, "Datos Guardados con éxito");
+        if (productosCompra.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ningun producto en lista");
+        } else {
+            Double total = Double.parseDouble(txtTotal.getText());
+            productosCompra.forEach((p) -> {
+                DAO_detalleCompra DAO_detCompra = new DAO_detalleCompra();
+                DAO_detCompra.GuardarDetallePartida(new DetalleCompra(jCalendar.getDate(),
+                        total, p.getCantidad(), p.getId()));
+            });
+
+            JOptionPane.showMessageDialog(this, "Datos Guardados con éxito");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -380,6 +402,17 @@ public class DetalleCompra extends javax.swing.JFrame {
         prov = new Proveedores();
         prov.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void cmbProveedorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbProveedorItemStateChanged
+        // TODO add your handling code here:
+        DAO_Proveedor dP = new DAO_Proveedor();
+        provSel = cmbProveedor.getSelectedItem().toString();
+        try {
+            idProv = dP.getProveedor(provSel).getId();
+        } catch (SQLException ex) {
+            Logger.getLogger(DCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cmbProveedorItemStateChanged
 
     private boolean busqProd(int nombre) {
         for (Producto x : productosCompra) {

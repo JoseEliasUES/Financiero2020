@@ -115,4 +115,15 @@ public class DAO_Marca {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public MarcaV busqM(Integer nombre) throws SQLException {
+        DAO_Marca daoM = new DAO_Marca();
+        for (MarcaV x : daoM.getMarca()) {
+            if (nombre.equals(x.getIdMarca())) {
+                MarcaV marca = x;
+                return marca;
+            }
+        }
+        return null;
+    }
 }

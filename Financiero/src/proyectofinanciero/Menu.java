@@ -16,9 +16,11 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form Menu
      */
-    public static DetalleCompra dc;
+    public static DCompra dc;
     public static Proveedores p;
     public static Marca m;
+    public static Kardex k;
+
     public Menu() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -46,6 +48,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu19 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu21 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -119,6 +122,14 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu5.add(jMenu21);
 
+        jMenu6.setText("Kardex");
+        jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu6MouseClicked(evt);
+            }
+        });
+        jMenu5.add(jMenu6);
+
         jMenuBar1.add(jMenu5);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/empleados (1)_1.png"))); // NOI18N
@@ -187,7 +198,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
         // TODO add your handling code here:
-        dc = new DetalleCompra();
+        dc = new DCompra();
         dc.setVisible(true);
     }//GEN-LAST:event_jMenu7MouseClicked
 
@@ -224,6 +235,12 @@ public class Menu extends javax.swing.JFrame {
         Productos p = new Productos();
         p.setVisible(true);
     }//GEN-LAST:event_jMenu21MouseClicked
+
+    private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+        // TODO add your handling code here:
+        k = new Kardex();
+        k.setVisible(true);
+    }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -279,6 +296,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;

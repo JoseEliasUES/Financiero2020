@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelos.DetalleCompra;
 
@@ -40,24 +43,26 @@ public class DAO_detalleCompra {
     }
 
     public void GuardarDetallePartida(DetalleCompra detalle) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.conexion.getConexion();
             Statement st = this.conexion.getConexion().createStatement();
             st.executeUpdate(
-                    "INSERT INTO compra values ('"
-                    + null + "','"
-                    + detalle.getFecha() + "','"
-                    + detalle.getIdProv() + "')");
-            st.executeUpdate(
-                    "INSERT INTO detcompra values ('"
-                    + null + "','"
-                    + detalle.getPrecioCompra() + "','"
-                    + detalle.getCantidad() + "','"
-                    + detalle.getIdProd() + "','"
-                    + detalle.getIdCompra() + "')");
-            stament.close();
-        }catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al Ingresar los Datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    "INSERT INTO detcompra(\n"
+                    + "    precCompra,\n"
+                    + "    cantidad,\n"
+                    + "    id_producto,\n"
+                    + "    fecha\n"
+                    + ")\n"
+                    + "VALUES(\n"
+                    + "    '" + detalle.getPrecioCompra() + "',\n"
+                    + "    '" + detalle.getCantidad() + "',\n"
+                    + "    '" + detalle.getIdProd() + "',\n"
+                    + "    '" + sdf.format(detalle.getFecha())+ "'\n"
+                    + ")");
+            conexion.cerrarConexiones();
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO_detalleCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

@@ -20,6 +20,23 @@ public class DetalleCompra {
     private int idCompra;
     private double total;
 
+    public DetalleCompra(Date fecha, double precioCompra, int cantidad, int idProd) {
+        this.fecha = fecha;
+        this.precioCompra = precioCompra;
+        this.cantidad = cantidad;
+        this.idProd = idProd;
+    }
+
+    public DetalleCompra(Date fecha, double precioCompra, int cantidad, int idProd, int idProv, int idCompra) {
+        this.fecha = fecha;
+        this.precioCompra = precioCompra;
+        this.cantidad = cantidad;
+        this.idProd = idProd;
+        this.idProv = idProv;
+        this.idCompra = idCompra;
+    }
+    
+
     public DetalleCompra(double precioCompra, int cantidad, int idProd, int idCompra) {
         this.precioCompra = precioCompra;
         this.cantidad = cantidad;

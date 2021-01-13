@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 import modelos.Producto;
+import proyectofinanciero.TblProducto;
 
 /**
  *
@@ -17,13 +18,9 @@ public class tablaProductos extends AbstractTableModel {
     DAO_Productos daoProd;
     ArrayList<Producto> productos;
 
-    public tablaProductos() {
-        daoProd = new DAO_Productos();
-        try {
-            productos = daoProd.getProductos();
-        } catch (SQLException ex) {
-            Logger.getLogger(tablaProductos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public tablaProductos(int d) {
+            daoProd = new DAO_Productos();
+            productos = daoProd.getProductoS(d);
     }
 
     public tablaProductos(ArrayList tipo) {
@@ -67,6 +64,10 @@ public class tablaProductos extends AbstractTableModel {
                 return "STOCK";
         }
         return null;
+    }
+
+    public ArrayList<Producto> getProductos() {
+        return productos;
     }
 
 }

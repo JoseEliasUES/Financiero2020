@@ -20,6 +20,30 @@ public class Producto {
     private String descripcion;
     private int cantidad;
     private double precio;
+    private Proveedor prov;
+
+    public Producto(int id, String nombre, String modelo, MarcaV marca, Categoria categoria, String descripcion, Proveedor prov) {
+        this.id = id;
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.prov = prov;
+    }
+
+    public Producto(String nombre, String modelo, int stock, MarcaV marca, Categoria categoria, String descripcion, Proveedor prov) {
+        this.nombre = nombre;
+        this.modelo = modelo;
+        this.stock = stock;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.prov = prov;
+    }
+
+ 
+    
 
     public Producto(int id, String nombre, String modelo, int stock, MarcaV marca, Categoria categoria) {
         this.id = id;
@@ -67,6 +91,15 @@ public class Producto {
         this.nombre = nombre;
         this.modelo = modelo;
         this.stock = stock;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+    }
+
+    public Producto(int id, String nombre, String modelo, MarcaV marca, Categoria categoria, String descripcion) {
+        this.id = id;
+        this.nombre = nombre;
+        this.modelo = modelo;
         this.marca = marca;
         this.categoria = categoria;
         this.descripcion = descripcion;
@@ -147,6 +180,14 @@ public class Producto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Proveedor getProv() {
+        return prov;
+    }
+
+    public void setProv(Proveedor prov) {
+        this.prov = prov;
     }
 
 }

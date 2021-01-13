@@ -8,8 +8,8 @@ package proyectofinanciero;
 import DAO.DAO_Categoria;
 import DAO.DAO_Marca;
 import DAO.DAO_Productos;
-import Tablas.tablaCats;
 import Tablas.tablaProductos;
+import Tablas.tblPr;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -20,6 +20,13 @@ import javax.swing.table.DefaultTableModel;
 import modelos.Categoria;
 import modelos.MarcaV;
 import modelos.Producto;
+import static proyectofinanciero.DCompra.modelo;
+import Conexion.Conexion;
+import DAO.DAO_Proveedor;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import modelos.Proveedor;
 
 /**
  *
@@ -31,23 +38,28 @@ public class Productos extends javax.swing.JFrame {
      * Creates new form Marca
      */
     DefaultTableModel md;
-    tablaProductos tPr;
+    tblPr tPr;
     Categoria categoria;
+    Producto pro;
     boolean flag;
-    Integer idCategoria;
+    Integer idP;
     static DefaultComboBoxModel comboModelC;
     static DefaultComboBoxModel comboModelM;
+    static DefaultComboBoxModel comboModelP;
     ArrayList<Categoria> datosCat;
     ArrayList<MarcaV> datosM;
+    ArrayList<Proveedor> datosP;
 
-    public Productos() throws SQLException {
+    public Productos() {
         initComponents();
-        tPr = new tablaProductos();
+        tPr = new tblPr();
         categoria = new Categoria();
+        pro = new Producto();
         tblProd.setModel(tPr);
         flag = false;
         comboModelC = new DefaultComboBoxModel();
         comboModelM = new DefaultComboBoxModel();
+        comboModelP = new DefaultComboBoxModel();
         llenaC();
     }
 
@@ -55,8 +67,10 @@ public class Productos extends javax.swing.JFrame {
 
         comboModelC.removeAllElements();
         comboModelM.removeAllElements();
+        comboModelP.removeAllElements();
         comboModelC.addElement("Seleccione Categoria...");
         comboModelM.addElement("Seleccione Marca...");
+        comboModelP.addElement("Seleccione Proveedor...");
         DAO_Categoria daoCat = new DAO_Categoria();
         try {
             datosCat = daoCat.getCategoria();
@@ -69,16 +83,27 @@ public class Productos extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        DAO_Proveedor daoP = new DAO_Proveedor();
+        try {
+            datosP = daoP.getProveedor();
+        } catch (SQLException ex) {
+            Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+        }
         datosCat.forEach((c) -> {
             comboModelC.addElement(c.getnCat());
         });
         datosM.forEach((m) -> {
             comboModelM.addElement(m.getMarca());
         });
+        datosP.forEach((p) -> {
+            comboModelP.addElement(p.getNombre());
+        });
         cCat.setModel(comboModelC);
         cMarca.setModel(comboModelM);
-        
+        cmbP.setModel(comboModelP);
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,6 +134,8 @@ public class Productos extends javax.swing.JFrame {
         cCat = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDesc = new javax.swing.JTextArea();
+        jLabel7 = new javax.swing.JLabel();
+        cmbP = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -175,7 +202,7 @@ public class Productos extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel3.setText("Nombre");
@@ -232,6 +259,10 @@ public class Productos extends javax.swing.JFrame {
         txtDesc.setRows(5);
         jScrollPane2.setViewportView(txtDesc);
 
+        jLabel7.setText("Proveedor");
+
+        cmbP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -239,39 +270,37 @@ public class Productos extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                            .addComponent(cMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cCat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(cMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cCat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbP, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCance, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2))))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel6))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
                 .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCance, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -283,7 +312,7 @@ public class Productos extends javax.swing.JFrame {
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -297,17 +326,22 @@ public class Productos extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
-                            .addComponent(cCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(cmbP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCance, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -333,20 +367,25 @@ public class Productos extends javax.swing.JFrame {
         // TODO add your handling code here:
         int selectMar = cMarca.getSelectedIndex();
         int selectCat = cCat.getSelectedIndex();
+        int selectP =cmbP.getSelectedIndex();
         String nombre = txtNombre.getText();
-        String marca = cMarca.getSelectedItem().toString();
-        String categ = cCat.getSelectedItem().toString();
         String modelo = txtModelo.getText();
         String desc = txtDesc.getText();
-        if (selectMar == 0 || !"".equals(nombre)) {
+        if (selectP == 0 || selectCat == 0 || selectMar == 0 || !"".equals(nombre)
+                || !"".equals(modelo) || !"".equals(desc)) {
             DAO_Productos dP = new DAO_Productos();
             if (!flag) {
                 try {
-                    dP.nProducto(new Producto(nombre, modelo, 0, datosM.get(selectMar - 1), datosCat.get(selectCat - 1), desc));
+                    dP.nProducto(new Producto(nombre, modelo, 0, datosM.get(selectMar - 1), datosCat.get(selectCat - 1), desc,datosP.get(selectP-1)));
                 } catch (SQLException ex) {
                     Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
+                try {
+                    dP.updateProducto(new Producto(pro.getId(), nombre, modelo, datosM.get(selectMar - 1), datosCat.get(selectCat - 1), desc,datosP.get(selectP-1)));
+                } catch (SQLException ex) {
+                    Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             limpiar();
             actualizarTabla();
@@ -361,15 +400,32 @@ public class Productos extends javax.swing.JFrame {
         // TODO add your handling code here:
         int x = tblProd.getSelectedRow();
         if (x == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una Categoria");
+            JOptionPane.showMessageDialog(this, "Seleccione un Producto");
         } else {
-            idCategoria = Integer.parseInt(tblProd.getValueAt(x, 0).toString());
+            idP = Integer.parseInt(tblProd.getValueAt(x, 0).toString());
             try {
-                if (busqM(idCategoria)) {
-                    txtNombre.setText(categoria.getDescripcion());
-                    txtNombre.setText(categoria.getnCat());
+                if (busqM(idP)) {
+                    txtNombre.setText(pro.getNombre());
+                    txtDesc.setText(pro.getDescripcion());
+                    txtModelo.setText(pro.getModelo());
+                    for (int i = 0; i < datosCat.size(); i++) {
+                        if (datosCat.get(i).getIdCat() == pro.getCategoria().getIdCat()) {
+                            cCat.getModel().setSelectedItem(datosCat.get(i).getnCat());
+                        }
+                    }
+                    for (int i = 0; i < datosM.size(); i++) {
+                        if (datosM.get(i).getIdMarca() == pro.getMarca().getIdMarca()) {
+                            cMarca.getModel().setSelectedItem(datosM.get(i).getMarca());
+                        }
+                    }
+                    for (int i = 0; i < datosP.size(); i++) {
+                        if (datosP.get(i).getId() == pro.getProv().getId()) {
+                            cmbP.getModel().setSelectedItem(datosP.get(i).getNombre());
+                        }
+                    }
                     btnAdd.setEnabled(false);
                     btnDel.setEnabled(false);
+
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Proveedores.class.getName()).log(Level.SEVERE, null, ex);
@@ -399,10 +455,10 @@ public class Productos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione un producto");
         } else {
             try {
-                Integer idMarca = Integer.parseInt(tblProd.getValueAt(x, 0).toString());
-                if (busqM(idMarca)) {
-                    DAO_Categoria daoC = new DAO_Categoria();
-                    daoC.eliminarCategoria(categoria);
+                Integer idP = Integer.parseInt(tblProd.getValueAt(x, 0).toString());
+                if (busqM(idP)) {
+                    DAO_Productos daoC = new DAO_Productos();
+                    daoC.eliminarProducto(pro);
                     actualizarTabla();
                     btnDel.setEnabled(false);
                     btnAdd.setEnabled(false);
@@ -423,7 +479,7 @@ public class Productos extends javax.swing.JFrame {
     public void actualizarTabla() {
 
         tblProd.setModel(new DefaultTableModel());
-        tblProd.setModel(new tablaCats());
+        tblProd.setModel(new tblPr());
     }
 
     public void limpiar() {
@@ -432,16 +488,15 @@ public class Productos extends javax.swing.JFrame {
     }
 
     private boolean busqM(Integer nombre) throws SQLException {
-        DAO_Categoria daoC = new DAO_Categoria();
-        for (Categoria x : daoC.getCategoria()) {
-            if (nombre.equals(x.getIdCat())) {
-                categoria = x;
+        DAO_Productos daoC = new DAO_Productos();
+        for (Producto x : daoC.getProductos()) {
+            if (nombre.equals(x.getId())) {
+                pro = x;
                 return true;
             }
         }
         return false;
     }
-
     /**
      * @param args the command line arguments
      */
@@ -453,12 +508,14 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JComboBox<String> cCat;
     private javax.swing.JComboBox<String> cMarca;
+    private javax.swing.JComboBox<String> cmbP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
