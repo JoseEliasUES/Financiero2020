@@ -7,6 +7,7 @@ package proyectofinanciero;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import proyectofinanciero.Inventario.Inventario;
+import proyectofinanciero.Venta.FrmVenta;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Menu extends javax.swing.JFrame {
     public static DCompra dc;
     public static Proveedores p;
     public static Marca m;
-
+    public static FrmVenta v;
     public Menu() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -55,6 +56,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
         jMenu9 = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         jMenu15 = new javax.swing.JMenu();
         jMenu17 = new javax.swing.JMenu();
         jMenu14 = new javax.swing.JMenu();
@@ -163,6 +165,15 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ventas.jpg"))); // NOI18N
         jMenu9.setText("Ventas");
+
+        jMenu1.setText("Nueva Venta");
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenu9.add(jMenu1);
+
         jMenuBar1.add(jMenu9);
 
         jMenu15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/5b862755be2ecabf81698a5f1795572c(1).png"))); // NOI18N
@@ -239,6 +250,12 @@ public class Menu extends javax.swing.JFrame {
         i.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
 
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        // TODO add your handling code here:
+        v = new FrmVenta();
+        v.setVisible(true);
+    }//GEN-LAST:event_jMenu1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -276,6 +293,7 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backg;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;
