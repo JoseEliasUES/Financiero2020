@@ -19,8 +19,17 @@ public class tablaProductos extends AbstractTableModel {
     ArrayList<Producto> productos;
 
     public tablaProductos(int d) {
-            daoProd = new DAO_Productos();
-            productos = daoProd.getProductoS(d);
+        daoProd = new DAO_Productos();
+        productos = daoProd.getProductoS(d);
+    }
+
+    public tablaProductos() {
+        daoProd = new DAO_Productos();
+        try {
+            productos = daoProd.getProductos();
+        } catch (SQLException ex) {
+            Logger.getLogger(tablaProductos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public tablaProductos(ArrayList tipo) {

@@ -186,4 +186,40 @@ public class DAO_Productos {
         return productos;
     }
 
+    public Iterable<Producto> getProductosF(String nombre) {
+        ArrayList<Producto> productos = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT * FROM productos WHERE "
+                    + "productos.nombre LIKE '%"+nombre+"%'";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Producto prod = new Producto();
+                prod.setId(rs.getInt(1));
+                prod.setNombre(rs.getString(2));
+                prod.setDescripcion(rs.getString(3));
+                prod.setModelo(rs.getString(4));
+                prod.setStock(rs.getInt(5));
+                MarcaV m = new MarcaV();
+                m.setIdMarca(rs.getInt(6));
+                prod.setMarca(m);
+                Categoria cat = new Categoria();
+                cat.setIdCat(rs.getInt(7));
+                prod.setCategoria(cat);
+                Proveedor pro = new Proveedor();
+                pro.setId(rs.getInt(8));
+                prod.setProv(pro);
+                productos.add(prod);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return productos;
+    }
+
 }

@@ -6,6 +6,7 @@
 package proyectofinanciero;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import proyectofinanciero.Inventario.Inventario;
 
 /**
  *
@@ -19,7 +20,6 @@ public class Menu extends javax.swing.JFrame {
     public static DCompra dc;
     public static Proveedores p;
     public static Marca m;
-    public static Kardex k;
 
     public Menu() {
         initComponents();
@@ -36,7 +36,6 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
         backg = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -59,8 +58,6 @@ public class Menu extends javax.swing.JFrame {
         jMenu15 = new javax.swing.JMenu();
         jMenu17 = new javax.swing.JMenu();
         jMenu14 = new javax.swing.JMenu();
-
-        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,7 +119,7 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu5.add(jMenu21);
 
-        jMenu6.setText("Kardex");
+        jMenu6.setText("Control de Inventario");
         jMenu6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu6MouseClicked(evt);
@@ -238,8 +235,8 @@ public class Menu extends javax.swing.JFrame {
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
         // TODO add your handling code here:
-        k = new Kardex();
-        k.setVisible(true);
+        Inventario i = new Inventario();
+        i.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
 
     /**
@@ -279,7 +276,6 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backg;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
     private javax.swing.JMenu jMenu12;

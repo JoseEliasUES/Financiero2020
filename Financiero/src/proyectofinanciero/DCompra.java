@@ -336,6 +336,8 @@ public class DCompra extends javax.swing.JFrame {
         if (provSel != null) {
             tblProd = new TblProducto(idProv);
             tblProd.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Seleccione un proveedor");
         }
     }//GEN-LAST:event_btnSelecProdActionPerformed
 

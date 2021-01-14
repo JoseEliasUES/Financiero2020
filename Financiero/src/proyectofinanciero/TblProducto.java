@@ -233,7 +233,7 @@ public class TblProducto extends javax.swing.JFrame {
         String SearchP = txtSearch.getText();
         if (!"".equals(SearchP)) {
             try {
-                if (busqP(SearchP)) {
+                if (busqPF(SearchP)) {
                     uTabla();
                 }
             } catch (SQLException ex) {
@@ -246,7 +246,7 @@ public class TblProducto extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        tablaProd = new tablaProductos(-1);
+        tablaProd = new tablaProductos();
         tblProductos.setModel(tablaProd);
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -267,7 +267,16 @@ public class TblProducto extends javax.swing.JFrame {
         }
         return false;
     }
-
+    private boolean busqPF(String nombre) throws SQLException {
+        DAO_Productos daoP = new DAO_Productos();
+        for (Producto x : daoP.getProductosF(nombre)) {
+            prodSeleccionado.add(x);
+        }
+            if (!prodSeleccionado.isEmpty()) {
+                return true;
+            }
+            return false;
+    }
     private void uTabla() {
         tablaProd = new tablaProductos(prodSeleccionado);
         tblProductos.setModel(tablaProd);
