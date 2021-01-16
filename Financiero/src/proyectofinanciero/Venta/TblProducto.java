@@ -9,12 +9,15 @@ import proyectofinanciero.*;
 import DAO.DAO_Productos;
 import Tablas.tablaProductos;
 import Tablas.tblProductoSeleccionado;
+import Tablas.tblProductosVenta;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelos.MarcaV;
 import modelos.Producto;
+import modelos.Venta;
 
 /**
  *
@@ -25,18 +28,36 @@ public class TblProducto extends javax.swing.JFrame {
     /**
      * Creates new form TblProducto
      */
-    tablaProductos tablaProd;
-    ArrayList<Producto> prodAComprar;
+    tblProductosVenta tablaProd;
+    ArrayList<Venta> prodAVender;
     ArrayList<Producto> prodSeleccionado;
     Producto productoS;
+    MarcaV m;
     tblProductoSeleccionado modeloTabla;
+    Venta venta;
+    Double total;
+    Integer meses;
 
     public TblProducto() {
         initComponents();
-        tablaProd = new tablaProductos();
+        tablaProd = new tblProductosVenta();
         tblProductos.setModel(tablaProd);
-        prodAComprar = new ArrayList<>();
+        prodAVender = new ArrayList<>();
         prodSeleccionado = new ArrayList<>();
+        productoS = new Producto();
+        m = new MarcaV();
+        meses = 0;
+        btnContado.setSelected(true);
+        hideComp();
+    }
+
+    private void hideComp() {
+        lblCuota.setVisible(false);
+        lblM.setVisible(false);
+        bxMeses.setVisible(false);
+        txtCuota.setVisible(false);
+        lblT.setVisible(true);
+        lbltotal.setVisible(true);
     }
 
     /**
@@ -64,9 +85,9 @@ public class TblProducto extends javax.swing.JFrame {
         bxMeses = new javax.swing.JComboBox<>();
         lblM = new javax.swing.JLabel();
         lblCuota = new javax.swing.JLabel();
-        txtCuota = new javax.swing.JTextField();
         lblT = new javax.swing.JLabel();
         lbltotal = new javax.swing.JLabel();
+        txtCuota = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -81,10 +102,10 @@ public class TblProducto extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(174, 174, 174)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(219, 219, 219))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,11 +120,21 @@ public class TblProducto extends javax.swing.JFrame {
 
             }
         ));
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProductos);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad"));
 
         spCantidad.setModel(new javax.swing.SpinnerNumberModel(1, 0, null, 1));
+        spCantidad.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spCantidadStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -156,6 +187,11 @@ public class TblProducto extends javax.swing.JFrame {
         });
 
         bxMeses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "12 Meses", "24 Meses", "36 Meses" }));
+        bxMeses.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                bxMesesItemStateChanged(evt);
+            }
+        });
         bxMeses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bxMesesActionPerformed(evt);
@@ -166,9 +202,9 @@ public class TblProducto extends javax.swing.JFrame {
 
         lblCuota.setText("Cuota");
 
-        txtCuota.setEnabled(false);
+        lblT.setText("Total : ");
 
-        lblT.setText("Total");
+        txtCuota.setText("$0.00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -198,14 +234,14 @@ public class TblProducto extends javax.swing.JFrame {
                             .addComponent(lblM)
                             .addComponent(lblCuota))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(bxMeses, 0, 104, Short.MAX_VALUE)
-                            .addComponent(txtCuota))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCuota)
+                            .addComponent(bxMeses, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbltotal)
                             .addComponent(lblT))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                         .addComponent(btnAgg, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -233,8 +269,8 @@ public class TblProducto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnContado)
                             .addComponent(lblCuota)
-                            .addComponent(txtCuota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbltotal)))
+                            .addComponent(lbltotal)
+                            .addComponent(txtCuota)))
                     .addComponent(btnAgg, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -244,19 +280,49 @@ public class TblProducto extends javax.swing.JFrame {
 
     private void btnAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggActionPerformed
         // TODO add your handling code here:
-        int cantidad = (int) spCantidad.getValue();
-//        double total = Double.parseDouble(txtTotal.getText());
-        int id;
-        String nombre;
         int x = tblProductos.getSelectedRow();
         if (x == -1) {
             JOptionPane.showMessageDialog(this, "Seleccione un producto");
         } else {
-            id = Integer.parseInt(tblProductos.getValueAt(x, 0).toString());
-            nombre = tblProductos.getValueAt(x, 1).toString();
+            int cantidad = (int) spCantidad.getValue();
+            String marca = tblProductos.getValueAt(x, 3).toString();
+            m.setMarca(marca);
+            productoS.setMarca(m);
+            int idProd = (int) tblProductos.getValueAt(x, 0);
+            String prod = tblProductos.getValueAt(x, 1).toString();
+            productoS.setId(idProd);
+            productoS.setNombre(prod);
+            Double subtotal;
+            if (btnCredito.isSelected()) {
+                if (bxMeses.getSelectedIndex() > 0) {
+                    int mes = bxMeses.getSelectedIndex();
+                    double cuota = Cuota(mes);
+                    txtCuota.setText(String.valueOf(cuota));
+                    subtotal = total;
+                    prodAVender.add(new Venta(productoS, cantidad, cuota, subtotal,meses));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Seleccione cantidad de meses");
+                }
+
+            } else {
+                double precio = Double.parseDouble(tblProductos.getValueAt(x, 5).toString());
+                total = (precio) * cantidad;
+                prodAVender.add(new Venta(productoS, cantidad, 0, total));
+
+            }
+
+//        double total = Double.parseDouble(txtTotal.getText());
+            int id;
+            String nombre;
+            if (x == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un producto");
+            } else {
+                id = Integer.parseInt(tblProductos.getValueAt(x, 0).toString());
+                nombre = tblProductos.getValueAt(x, 1).toString();
 //            prodAComprar.add(new Producto(id, nombre, cantidad, Double.parseDouble(String.format("%.2f", total))));
-            Menu.dc.ActualizarTabla();
-            dispose();
+                Menu.v.ActualizarTabla();
+                dispose();
+            }
         }
     }//GEN-LAST:event_btnAggActionPerformed
 
@@ -278,13 +344,12 @@ public class TblProducto extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
-        tablaProd = new tablaProductos();
+        tablaProd = new tblProductosVenta();
         tblProductos.setModel(tablaProd);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void bxMesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bxMesesActionPerformed
-        // TODO add your handling code here:
-        //EstabCuota();
+
     }//GEN-LAST:event_bxMesesActionPerformed
 
     private void btnCreditoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreditoMouseClicked
@@ -299,13 +364,60 @@ public class TblProducto extends javax.swing.JFrame {
 
     private void btnContadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnContadoMouseClicked
         // TODO add your handling code here:
-        lblCuota.setVisible(false);
-        lblM.setVisible(false);
-        bxMeses.setVisible(false);
-        txtCuota.setVisible(false);
-        lblT.setVisible(true);
-        lbltotal.setVisible(true);
+        uTotal();
+        hideComp();
+        meses = 0;
     }//GEN-LAST:event_btnContadoMouseClicked
+
+    private void spCantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spCantidadStateChanged
+        // TODO add your handling code here:
+        if (btnCredito.isSelected()) {
+            uCuota();
+        } else {
+            uTotal();
+        }
+    }//GEN-LAST:event_spCantidadStateChanged
+
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        // TODO add your handling code here:
+        if (btnCredito.isSelected()) {
+            uCuota();
+        } else {
+            uTotal();
+        }
+    }//GEN-LAST:event_tblProductosMouseClicked
+
+    private void bxMesesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_bxMesesItemStateChanged
+        // TODO add your handling code here:
+        uCuota();
+    }//GEN-LAST:event_bxMesesItemStateChanged
+    private void uCuota() {
+        int s = bxMeses.getSelectedIndex();
+        if (s > 0) {
+            int x = tblProductos.getSelectedRow();
+            if (x == -1) {
+                JOptionPane.showMessageDialog(this, "Seleccione un producto");
+            } else {
+                double cuota = Cuota(s);
+                txtCuota.setText("$" + String.format("%.2f", cuota));
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un plan de pago");
+        }
+    }
+
+    private void uTotal() {
+        int x = tblProductos.getSelectedRow();
+        if (x == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un Producto");
+        } else {
+            double precio = Double.parseDouble(tblProductos.getValueAt(x, 5).toString());
+            int cantidad = (int) spCantidad.getValue();
+            total = (precio) * cantidad;
+            lbltotal.setText(String.valueOf(total));
+        }
+    }
+
     private boolean busqPF(String nombre) throws SQLException {
         DAO_Productos daoP = new DAO_Productos();
         for (Producto x : daoP.getProductosF(nombre)) {
@@ -318,10 +430,31 @@ public class TblProducto extends javax.swing.JFrame {
     }
 
     private void uTabla() {
-        tablaProd = new tablaProductos(prodSeleccionado);
+        tablaProd = new tblProductosVenta(prodSeleccionado);
         tblProductos.setModel(tablaProd);
         tablaProd.fireTableDataChanged();
         prodSeleccionado = new ArrayList<>();
+    }
+
+    private Double Cuota(Integer m) {
+        int x = tblProductos.getSelectedRow();
+        int cantidad = (int) spCantidad.getValue();
+        double precio = Double.parseDouble(tblProductos.getValueAt(x, 5).toString());
+        switch (m) {
+            case 1:
+                meses = 12;
+                total = (((precio * 30) / 100) + precio) * cantidad;
+                return total / 12;
+            case 2:
+                meses = 24;
+                total = (((precio * 60) / 100) + precio) * cantidad;
+                return total / 24;
+            case 3:
+                meses = 36;
+                total = (((precio * 90) / 100) + precio) * cantidad;
+                return total / 36;
+        }
+        return 0.0;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgg;
@@ -341,7 +474,7 @@ public class TblProducto extends javax.swing.JFrame {
     private javax.swing.JLabel lbltotal;
     private javax.swing.JSpinner spCantidad;
     private javax.swing.JTable tblProductos;
-    private javax.swing.JTextField txtCuota;
+    private javax.swing.JLabel txtCuota;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 

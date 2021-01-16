@@ -5,6 +5,25 @@
  */
 package proyectofinanciero.Venta;
 
+import DAO.DAO_Venta;
+import Tablas.TblProdSVenta;
+import Tablas.tblProductoSeleccionado;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import modelos.DetVenta;
+import modelos.Producto;
+import modelos.Venta;
+import proyectofinanciero.DCompra;
+
 /**
  *
  * @author gemelos
@@ -14,8 +33,42 @@ public class FrmVenta extends javax.swing.JFrame {
     /**
      * Creates new form FrmVenta
      */
+    TblProducto p;
+    SelectCliente sc;
+    ArrayList<Venta> productosV;
+    TblProdSVenta modelo;
+    SimpleDateFormat sd;
+    Date fec;//fecha compra
+    String dd;
+    String d;
+    DAO_Venta daoVenta;
+
     public FrmVenta() {
         initComponents();
+        daoVenta = new DAO_Venta();
+        productosV = new ArrayList<>();
+        Calendar fecha = new GregorianCalendar();
+        d = "dd-MM-yyyy";
+        sd = new SimpleDateFormat(d);
+        dd = sd.format(fecha.getTime());
+        try {
+            fec = sd.parse(dd);
+        } catch (ParseException ex) {
+            Logger.getLogger(DCompra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FechaEmision.setDate(fec);
+        FechaEmision.setMinSelectableDate(fec);
+        try {
+            customFormat("00000", daoVenta.getNumFactu());
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmVenta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void customFormat(String pattern, double value) {
+        DecimalFormat myFormatter = new DecimalFormat(pattern);
+        lblFactura.setText("F-" + myFormatter.format(value));
+
     }
 
     /**
@@ -40,7 +93,7 @@ public class FrmVenta extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lbltotal = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         lblCliente = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -78,7 +131,7 @@ public class FrmVenta extends javax.swing.JFrame {
 
         FechaEmision.setFocusable(false);
 
-        jLabel3.setText("N° Factura");
+        jLabel3.setText("N° Factura:");
 
         lblFactura.setText("000");
 
@@ -102,9 +155,14 @@ public class FrmVenta extends javax.swing.JFrame {
 
         jLabel6.setText("Total ");
 
-        jLabel7.setText("$");
+        lbltotal.setText("$");
 
         jButton3.setText("REGISTRAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -134,9 +192,9 @@ public class FrmVenta extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel7))
+                        .addComponent(lbltotal))
                     .addComponent(lblCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
         );
@@ -162,7 +220,7 @@ public class FrmVenta extends javax.swing.JFrame {
                         .addComponent(jButton2))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(jLabel7)))
+                        .addComponent(lbltotal)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
@@ -172,13 +230,13 @@ public class FrmVenta extends javax.swing.JFrame {
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "N", "Producto", "Marca", "Cantidad", "Cuota", "Subtotal"
             }
         ));
         jScrollPane1.setViewportView(tblProductos);
@@ -217,49 +275,71 @@ public class FrmVenta extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        sc = new SelectCliente();
+        sc.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        TblProducto p = new TblProducto();
+        p = new TblProducto();
         p.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String nombre = lblCliente.getText();
+        if ("$".equals(lbltotal.getText())) {
+            JOptionPane.showMessageDialog(this, "Ningun producto en lista");
+        } else {
+            double total = Double.parseDouble(lbltotal.getText());
+            Date fechaE = FechaEmision.getDate();
+            if (!"".equals(nombre) && total != 0 && !"".equals(fechaE.toString())) {
+                try {
+                    daoVenta.GuardarVenta(new Venta(fechaE, sc.clienteSeleccionado.get(0).getIdCliente(), lblFactura.getText()));
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmVenta.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                productosV.forEach((pVenta) -> {
+                    int estado = 0;
+                    if (pVenta.getCuota()==0) {
+                        estado = 1;
+                    }
+                    try {
+                        daoVenta.GuardarDetVenta(new DetVenta(daoVenta.selectVenta(), pVenta.getProducto().getId(), pVenta.getCantidad(), pVenta.getMeses(), estado, pVenta.getCuota(), total));
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FrmVenta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "Asegurese de seleccionar el cliente, producto o fecha");
+            } 
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+    public void ActualizarTabla() {
+        for (int i = 0; i < p.prodAVender.size(); i++) {
+            productosV.add(p.prodAVender.get(i));
+        }
+        modelo = new TblProdSVenta(productosV);
+        tblProductos.setModel(modelo);
+        modelo.fireTableDataChanged();
+        total();
+    }
+
+    private void total() {
+        double total = 0.00;
+        for (int i = 0; i < productosV.size(); i++) {
+            total += productosV.get(i).getSubtotal();
+        }
+
+        lbltotal.setText(String.valueOf(total));
+    }
+
+    void actualizarCliente() {
+        lblCliente.setText(sc.clienteSeleccionado.get(0).getNombre() + " " + sc.clienteSeleccionado.get(0).getApellido());
+    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmVenta().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser FechaEmision;
     private javax.swing.JButton jButton1;
@@ -271,13 +351,14 @@ public class FrmVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCliente;
     private javax.swing.JLabel lblFactura;
+    private javax.swing.JLabel lbltotal;
     private javax.swing.JTable tblProductos;
     // End of variables declaration//GEN-END:variables
+
 }

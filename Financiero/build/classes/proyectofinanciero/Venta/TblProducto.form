@@ -54,17 +54,17 @@
                           <Component id="lblM" min="-2" max="-2" attributes="0"/>
                           <Component id="lblCuota" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="bxMeses" pref="104" max="32767" attributes="0"/>
-                          <Component id="txtCuota" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="txtCuota" min="-2" max="-2" attributes="0"/>
+                          <Component id="bxMeses" min="-2" pref="104" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lbltotal" min="-2" max="-2" attributes="0"/>
                           <Component id="lblT" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                      <EmptySpace pref="81" max="32767" attributes="0"/>
                       <Component id="btnAgg" min="-2" pref="88" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -98,8 +98,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnContado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblCuota" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lbltotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCuota" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="btnAgg" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
@@ -125,10 +125,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="219" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -168,6 +168,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblProductosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -202,6 +205,9 @@
               <SpinnerModel initial="1" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="spCantidadStateChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -265,6 +271,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="bxMesesItemStateChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bxMesesActionPerformed"/>
       </Events>
       <AuxValues>
@@ -281,17 +288,17 @@
         <Property name="text" type="java.lang.String" value="Cuota"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCuota">
-      <Properties>
-        <Property name="enabled" type="boolean" value="false"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblT">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Total"/>
+        <Property name="text" type="java.lang.String" value="Total : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbltotal">
+    </Component>
+    <Component class="javax.swing.JLabel" name="txtCuota">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="$0.00"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

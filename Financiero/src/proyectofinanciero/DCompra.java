@@ -48,6 +48,7 @@ public class DCompra extends javax.swing.JFrame {
     Date fec;//fecha compra
     String dd;
     String d;
+
     public DCompra() {
         initComponents();
         provSel = null;
@@ -63,6 +64,7 @@ public class DCompra extends javax.swing.JFrame {
             Logger.getLogger(DCompra.class.getName()).log(Level.SEVERE, null, ex);
         }
         jCalendar.setDate(fec);
+        jCalendar.setMinSelectableDate(fec);
         modelo = new DefaultComboBoxModel();
         llena_combo();
     }
@@ -336,7 +338,7 @@ public class DCompra extends javax.swing.JFrame {
         if (provSel != null) {
             tblProd = new TblProducto(idProv);
             tblProd.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione un proveedor");
         }
     }//GEN-LAST:event_btnSelecProdActionPerformed

@@ -17,6 +17,7 @@ import modelos.Inventario;
 import modelos.MarcaV;
 import modelos.Producto;
 import modelos.Proveedor;
+import modelos.RegVentas;
 
 /**
  *
@@ -270,7 +271,7 @@ public class DAO_Inventario {
                     + "INNER JOIN marca ON productos.id_marca = marca.id_marca\n"
                     + "INNER JOIN categoria ON productos.id_categoria = categoria.id_categoria\n"
                     + "WHERE YEAR(detcompra.fecha) = '" + anio + "' AND MONTH(detcompra.fecha) = '" + mes + "'\n"
-                    + "AND productos.nombre like '%"+prod+"%'";
+                    + "AND productos.nombre like '%" + prod + "%'";
             PreparedStatement ps = accesoDB.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -317,7 +318,7 @@ public class DAO_Inventario {
                     + "INNER JOIN marca ON productos.id_marca = marca.id_marca\n"
                     + "INNER JOIN categoria ON productos.id_categoria = categoria.id_categoria\n"
                     + "WHERE YEAR(venta.fecha) = '" + anio + "' AND MONTH(venta.fecha) = '" + mes + "' \n"
-                    + "AND productos.nombre like '%"+prod+"%'";
+                    + "AND productos.nombre like '%" + prod + "%'";
             PreparedStatement ps = accesoDB.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -359,7 +360,7 @@ public class DAO_Inventario {
                     + "productos\n"
                     + "INNER JOIN marca ON productos.id_marca = marca.id_marca\n"
                     + "INNER JOIN categoria ON productos.id_categoria = categoria.id_categoria\n"
-                    + "WHERE productos.nombre like '%"+prod+"%'";
+                    + "WHERE productos.nombre like '%" + prod + "%'";
             PreparedStatement ps = accesoDB.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -374,6 +375,48 @@ public class DAO_Inventario {
                 c.setnCat(rs.getString(4));
                 inv.setCatC(c);
                 inv.setStock(rs.getInt(5));
+                productos.add(inv);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return productos;
+    }
+
+    public ArrayList<RegVentas> getProductosVentas() {
+        ArrayList<RegVentas> productos = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT\n"
+                    + "productos.nombre,\n"
+                    + "detventa.cantidad,\n"
+                    + "venta.fecha,\n"
+                    + "clientes.DUI,\n"
+                    + "detventa.estado,\n"
+                    + "detventa.total\n"
+                    + "FROM\n"
+                    + "detventa\n"
+                    + "INNER JOIN productos ON detventa.idProd = productos.id_producto\n"
+                    + "INNER JOIN venta ON detventa.id_venta = venta.id_venta\n"
+                    + "INNER JOIN clientes ON venta.cliente = clientes.id_cliente";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                RegVentas inv = new RegVentas();
+                inv.setProducto(rs.getString(1));
+                inv.setCantidad(rs.getInt(2));
+                inv.setFecha(rs.getDate(3));
+                inv.setDuiCliente(rs.getString(4));
+                if (rs.getInt(5)== 1) {
+                    inv.setEstado("Pagado");
+                }else{
+                    inv.setEstado("Deudor y/o Credito");
+                }
+                inv.setTotal(rs.getDouble(6));
                 productos.add(inv);
             }
             conexion.cerrarConexiones();
