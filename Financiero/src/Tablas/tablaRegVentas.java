@@ -23,7 +23,19 @@ public class tablaRegVentas extends AbstractTableModel {
     public tablaRegVentas() {
         detVenta = new ArrayList<>();
         daoI = new DAO_Inventario();
-        detVenta= daoI.getProductosVentas();
+        detVenta = daoI.getProductosVentas();
+    }
+
+    public tablaRegVentas(int anio, int mes) {
+        detVenta = new ArrayList<>();
+        daoI = new DAO_Inventario();
+        detVenta = daoI.getProductosVentasF(anio, mes);
+    }
+
+    public tablaRegVentas(String dui) {
+        detVenta = new ArrayList<>();
+        daoI = new DAO_Inventario();
+        detVenta = daoI.getProductosVentasFDui(dui);
     }
 
     @Override

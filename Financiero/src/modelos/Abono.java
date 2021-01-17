@@ -42,6 +42,21 @@ public class Abono {
         this.descripcion = descripcion;
     }
 
+    public Abono(int id_detVenta, Date fecha, double abono, double mora, Date proxPago) {
+        this.id_detVenta = id_detVenta;
+        this.fecha = fecha;
+        this.abono = abono;
+        this.mora = mora;
+        this.proxPago = proxPago;
+    }
+
+    public Abono(int id_detVenta, double abono, double mora, Date proxPago) {
+        this.id_detVenta = id_detVenta;
+        this.abono = abono;
+        this.mora = mora;
+        this.proxPago = proxPago;
+    }
+
     public Abono() {
 
     }

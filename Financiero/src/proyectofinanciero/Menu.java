@@ -6,8 +6,10 @@
 package proyectofinanciero;
 
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import proyectofinanciero.CxC.RefCxC;
 import proyectofinanciero.Inventario.Inventario;
 import proyectofinanciero.Venta.FrmVenta;
+import proyectofinanciero.Venta.RegVentas;
 
 /**
  *
@@ -22,6 +24,8 @@ public class Menu extends javax.swing.JFrame {
     public static Proveedores p;
     public static Marca m;
     public static FrmVenta v;
+    public static RefCxC rcc;
+
     public Menu() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -57,6 +61,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu13 = new javax.swing.JMenu();
         jMenu9 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenu22 = new javax.swing.JMenu();
         jMenu15 = new javax.swing.JMenu();
         jMenu17 = new javax.swing.JMenu();
         jMenu14 = new javax.swing.JMenu();
@@ -174,12 +179,25 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu9.add(jMenu1);
 
+        jMenu22.setText("Registro de Ventas");
+        jMenu22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu22MouseClicked(evt);
+            }
+        });
+        jMenu9.add(jMenu22);
+
         jMenuBar1.add(jMenu9);
 
         jMenu15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/5b862755be2ecabf81698a5f1795572c(1).png"))); // NOI18N
         jMenu15.setText("Cuentas por cobrar");
 
         jMenu17.setText("Abonos a cuenta");
+        jMenu17.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu17MouseClicked(evt);
+            }
+        });
         jMenu15.add(jMenu17);
 
         jMenuBar1.add(jMenu15);
@@ -256,6 +274,18 @@ public class Menu extends javax.swing.JFrame {
         v.setVisible(true);
     }//GEN-LAST:event_jMenu1MouseClicked
 
+    private void jMenu22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu22MouseClicked
+        // TODO add your handling code here:
+        RegVentas regV = new RegVentas();
+        regV.setVisible(true);
+    }//GEN-LAST:event_jMenu22MouseClicked
+
+    private void jMenu17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu17MouseClicked
+        // TODO add your handling code here:
+        rcc = new RefCxC();
+        rcc.setVisible(true);
+    }//GEN-LAST:event_jMenu17MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -307,6 +337,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu20;
     private javax.swing.JMenu jMenu21;
+    private javax.swing.JMenu jMenu22;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

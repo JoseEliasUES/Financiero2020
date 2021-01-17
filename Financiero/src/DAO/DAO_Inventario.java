@@ -411,9 +411,96 @@ public class DAO_Inventario {
                 inv.setCantidad(rs.getInt(2));
                 inv.setFecha(rs.getDate(3));
                 inv.setDuiCliente(rs.getString(4));
-                if (rs.getInt(5)== 1) {
+                if (rs.getInt(5) == 1) {
                     inv.setEstado("Pagado");
-                }else{
+                } else {
+                    inv.setEstado("Deudor y/o Credito");
+                }
+                inv.setTotal(rs.getDouble(6));
+                productos.add(inv);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return productos;
+    }
+
+    public ArrayList<RegVentas> getProductosVentasF(int anio, int mes) {
+        ArrayList<RegVentas> productos = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT\n"
+                    + "productos.nombre,\n"
+                    + "detventa.cantidad,\n"
+                    + "venta.fecha,\n"
+                    + "clientes.DUI,\n"
+                    + "detventa.estado,\n"
+                    + "detventa.total\n"
+                    + "FROM\n"
+                    + "productos\n"
+                    + "INNER JOIN detventa ON detventa.idProd = productos.id_producto\n"
+                    + "INNER JOIN venta ON detventa.id_venta = venta.id_venta\n"
+                    + "INNER JOIN clientes ON venta.cliente = clientes.id_cliente\n"
+                    + "WHERE YEAR(venta.fecha) = '" + anio + "' AND MONTH(venta.fecha)='" + mes + "'";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                RegVentas inv = new RegVentas();
+                inv.setProducto(rs.getString(1));
+                inv.setCantidad(rs.getInt(2));
+                inv.setFecha(rs.getDate(3));
+                inv.setDuiCliente(rs.getString(4));
+                if (rs.getInt(5) == 1) {
+                    inv.setEstado("Pagado");
+                } else {
+                    inv.setEstado("Deudor y/o Credito");
+                }
+                inv.setTotal(rs.getDouble(6));
+                productos.add(inv);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return productos;
+    }
+
+    public ArrayList<RegVentas> getProductosVentasFDui(String dui) {
+        ArrayList<RegVentas> productos = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT\n"
+                    + "	productos.nombre,\n"
+                    + "	detventa.cantidad,\n"
+                    + "	venta.fecha,\n"
+                    + "	clientes.DUI,\n"
+                    + "	detventa.estado,\n"
+                    + "	detventa.total\n"
+                    + "FROM\n"
+                    + "	detventa\n"
+                    + "INNER JOIN productos ON detventa.idProd = productos.id_producto\n"
+                    + "INNER JOIN venta ON detventa.id_venta = venta.id_venta\n"
+                    + "INNER JOIN clientes ON venta.cliente = clientes.id_cliente\n"
+                    + "WHERE\n"
+                    + "	clientes.DUI LIKE '%" + dui + "%'";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                RegVentas inv = new RegVentas();
+                inv.setProducto(rs.getString(1));
+                inv.setCantidad(rs.getInt(2));
+                inv.setFecha(rs.getDate(3));
+                inv.setDuiCliente(rs.getString(4));
+                if (rs.getInt(5) == 1) {
+                    inv.setEstado("Pagado");
+                } else {
                     inv.setEstado("Deudor y/o Credito");
                 }
                 inv.setTotal(rs.getDouble(6));

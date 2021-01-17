@@ -5,10 +5,12 @@
  */
 package proyectofinanciero.Venta;
 
+import DAO.DAO_Abono;
 import DAO.DAO_Venta;
 import Tablas.TblProdSVenta;
 import Tablas.tblProductoSeleccionado;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelos.Abono;
 import modelos.DetVenta;
 import modelos.Producto;
 import modelos.Venta;
@@ -42,10 +45,12 @@ public class FrmVenta extends javax.swing.JFrame {
     String dd;
     String d;
     DAO_Venta daoVenta;
+    DAO_Abono daoBono;
 
     public FrmVenta() {
         initComponents();
         daoVenta = new DAO_Venta();
+        daoBono = new DAO_Abono();
         productosV = new ArrayList<>();
         Calendar fecha = new GregorianCalendar();
         d = "dd-MM-yyyy";
@@ -171,19 +176,20 @@ public class FrmVenta extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(FechaEmision, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(75, 75, 75)
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(173, 173, 173)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -194,9 +200,9 @@ public class FrmVenta extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(lbltotal))
                     .addComponent(lblCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
+                .addGap(32, 32, 32))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,18 +307,23 @@ public class FrmVenta extends javax.swing.JFrame {
                 }
                 productosV.forEach((pVenta) -> {
                     int estado = 0;
-                    if (pVenta.getCuota()==0) {
+                    if (pVenta.getCuota() == 0) {
                         estado = 1;
                     }
                     try {
-                        daoVenta.GuardarDetVenta(new DetVenta(daoVenta.selectVenta(), pVenta.getProducto().getId(), pVenta.getCantidad(), pVenta.getMeses(), estado, pVenta.getCuota(), total));
+                        daoVenta.GuardarDetVenta(new DetVenta(daoVenta.selectVenta(), pVenta.getProducto().getId(), pVenta.getCantidad(), pVenta.getMeses(), estado, pVenta.getCuota(), pVenta.getSubtotal()));
+                        if (estado == 0) {
+                            daoBono.GuardarAbono(new Abono(daoVenta.selectDetVenta(), fechaE, 0.00, 0.00, SigP(fechaE, 30)));
+                        }
                     } catch (SQLException ex) {
                         Logger.getLogger(FrmVenta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
+                JOptionPane.showMessageDialog(this, "Exito");
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Asegurese de seleccionar el cliente, producto o fecha");
-            } 
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
     public void ActualizarTabla() {
@@ -336,6 +347,13 @@ public class FrmVenta extends javax.swing.JFrame {
 
     void actualizarCliente() {
         lblCliente.setText(sc.clienteSeleccionado.get(0).getNombre() + " " + sc.clienteSeleccionado.get(0).getApellido());
+    }
+
+    private Date SigP(Date fechaE, int dias) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaE);
+        calendar.add(calendar.DAY_OF_YEAR, dias);
+        return calendar.getTime();
     }
     /**
      * @param args the command line arguments
