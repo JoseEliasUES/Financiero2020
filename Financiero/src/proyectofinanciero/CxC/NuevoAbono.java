@@ -41,6 +41,7 @@ public class NuevoAbono extends javax.swing.JFrame {
     String numero;
     DAO_Venta daoVenta;
     int posicion;
+    private Date moratorio;
 
     public NuevoAbono() {
         initComponents();
@@ -61,9 +62,11 @@ public class NuevoAbono extends javax.swing.JFrame {
             txtFact.setText(factura);
             posicion = datosAbono.size() - 1;
             txtMora.setText(String.valueOf(datosAbono.get(posicion).getMora()));
-            txtCuota.setText(String.valueOf(datosAbono.get(posicion).getCuota()));
+            txtCuota.setText(String.format("%.2f", datosAbono.get(posicion).getCuota()));
             txtCliente.setText(datosC.getCliente());
+            txtProducto.setText(datosC.getProducto());
             lblPending.setText(String.valueOf(datosC.getCredInicial() - datosC.getSaldoPendiente()));
+            moratorio = datosAbono.get(posicion).getProxPago();
             txtPpago.setText(sd.format(datosAbono.get(posicion).getProxPago()));
             txtProxP.setText(sd.format(SigP(datosAbono.get(posicion).getProxPago(), 30)));
             Calendar fecha = new GregorianCalendar();
@@ -75,6 +78,7 @@ public class NuevoAbono extends javax.swing.JFrame {
             }
             jfecha.setDate(fec);
             jfecha.setMinSelectableDate(fec);
+            mora(datosAbono.get(posicion).getCuota());
         } catch (SQLException ex) {
             Logger.getLogger(NuevoAbono.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,6 +116,8 @@ public class NuevoAbono extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtProxP = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtProducto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -212,6 +218,10 @@ public class NuevoAbono extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("Producto");
+
+        txtProducto.setEditable(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -253,20 +263,22 @@ public class NuevoAbono extends javax.swing.JFrame {
                                         .addComponent(txtMora, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 112, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel10)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(txtProxP, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblPending)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
-                                    .addComponent(txtPpago, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(txtPpago, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtProxP, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10)))
                         .addGap(58, 58, 58)))
                 .addContainerGap())
         );
@@ -295,17 +307,22 @@ public class NuevoAbono extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(txtMora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPpago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPpago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(lblPending))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(lblPending)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtProxP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,17 +386,20 @@ public class NuevoAbono extends javax.swing.JFrame {
             int idDetVenta = datosAbono.get(posicion).getId_detVenta();
             Double mora = Double.parseDouble(txtMora.getText());
             if (pendiente > cuota) {
-                if (abono < cuota) {
-                    JOptionPane.showMessageDialog(this, "MONTO MENOR A CUOTA ESTABLECIDA");
+                if (abono < cuota + mora) {
+                    JOptionPane.showMessageDialog(this, "MONTO MENOR A CUOTA ESTABLECIDA,PRESTAR ATENCION A LA MORA");
                 } else {
                     try {
                         daoAbo.GuardarAbono(new Abono(idDetVenta, fecha, abono, mora, sd.parse(flag)));
                     } catch (SQLException | ParseException ex) {
                         Logger.getLogger(NuevoAbono.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } 
+                    JOptionPane.showMessageDialog(this, "Exito");
+                    Menu.rcc.uTabla(datosC.getDui());
+                    dispose();
+                }
             } else {
-                if (abono > cuota) {
+                if (abono > cuota + mora) {
                     JOptionPane.showMessageDialog(this, "Monto mayor al valor restante de credito");
                 } else {
                     try {
@@ -388,11 +408,11 @@ public class NuevoAbono extends javax.swing.JFrame {
                     } catch (SQLException | ParseException ex) {
                         Logger.getLogger(NuevoAbono.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    JOptionPane.showMessageDialog(this, "Exito");
+                    Menu.rcc.uTabla(datosC.getDui());
+                    dispose();
                 }
             }
-            JOptionPane.showMessageDialog(this, "Exito");
-            Menu.rcc.uTabla(datosC.getDui());
-            dispose();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -417,6 +437,13 @@ public class NuevoAbono extends javax.swing.JFrame {
         calendar.add(calendar.DAY_OF_YEAR, dias);
         return calendar.getTime();
     }
+
+    private void mora(Double morita) {
+        if (moratorio.compareTo(fec) > 0) {
+            Double mora = morita * 0.05;
+            txtMora.setText(String.format("%.2f", mora));
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -433,6 +460,7 @@ public class NuevoAbono extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -444,6 +472,8 @@ public class NuevoAbono extends javax.swing.JFrame {
     private javax.swing.JTextField txtFact;
     private javax.swing.JTextField txtMora;
     private javax.swing.JTextField txtPpago;
+    private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtProxP;
     // End of variables declaration//GEN-END:variables
+
 }

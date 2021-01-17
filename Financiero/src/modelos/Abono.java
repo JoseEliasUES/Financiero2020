@@ -31,7 +31,7 @@ public class Abono {
     private Date fechaCredito;
     private double cuota;
     private int idCliente;
-
+    private String producto;
     public Abono(int id_detVenta, Date fecha, Time hora, double abono, double mora, Date proxPago, String descripcion) {
         this.id_detVenta = id_detVenta;
         this.fecha = fecha;
@@ -187,6 +187,14 @@ public class Abono {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getProducto() {
+        return producto;
+    }
+
+    public void setProducto(String producto) {
+        this.producto = producto;
     }
 
 }

@@ -40,7 +40,7 @@ public class tablaCuentasxCobrar implements TableModel {
 
     @Override
     public int getColumnCount() {
-        return 6;
+        return 7;
     }
 
     @Override
@@ -56,10 +56,12 @@ public class tablaCuentasxCobrar implements TableModel {
             case 2:
                 return abo.getCliente();
             case 3:
-                return abo.getCredInicial();
+                return abo.getProducto();
             case 4:
-                return (abo.getCredInicial()- abo.getSaldoPendiente());
+                return abo.getCredInicial();
             case 5:
+                return (abo.getCredInicial()- abo.getSaldoPendiente());
+            case 6:
                 return abo.getFechaCredito();
         }
         return null;
@@ -76,10 +78,12 @@ public class tablaCuentasxCobrar implements TableModel {
             case 2:
                 return "Cliente";
             case 3:
-                return "Crédito Inicial";
+                return "Producto";
             case 4:
-                return "Saldo Pendiente";
+                return "Crédito Inicial";
             case 5:
+                return "Saldo Pendiente";
+            case 6:
                 return "Fecha Crédito";
         }
         return null;

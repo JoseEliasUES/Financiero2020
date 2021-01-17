@@ -105,16 +105,22 @@ public class DAO_Abono {
                     + "		' ',\n"
                     + "		clientes.apellidos\n"
                     + "	) AS cliente,\n"
-                    + "SUM(abonos.abono) as pagado\n"
-                    + ",\n"
+                    + "	SUM(abonos.abono) AS pagado,\n"
                     + "	venta.fecha,\n"
-                    + "detventa.total\n"
+                    + "	detventa.total,\n"
+                    + "productos.nombre\n"
                     + "FROM\n"
-                    + "	detventa\n"
+                    + "detventa\n"
                     + "INNER JOIN venta ON detventa.id_venta = venta.id_venta\n"
                     + "INNER JOIN clientes ON venta.cliente = clientes.id_cliente\n"
                     + "INNER JOIN abonos ON abonos.id_detventa = detventa.id_detVenta\n"
-                    + "WHERE detventa.estado=0 GROUP BY venta.factura ORDER BY clientes.nombres desc";
+                    + "INNER JOIN productos ON productos.id_producto = detventa.idProd\n"
+                    + "WHERE\n"
+                    + "	detventa.estado = 0\n"
+                    + "GROUP BY\n"
+                    + "	venta.factura\n"
+                    + "ORDER BY\n"
+                    + "	clientes.nombres DESC";
             PreparedStatement ps = accesoDB.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -126,6 +132,7 @@ public class DAO_Abono {
                 ab.setSaldoPendiente(rs.getDouble(4));
                 ab.setFechaCredito(rs.getDate(5));
                 ab.setCredInicial(rs.getDouble(6));
+                ab.setProducto(rs.getString(7));
                 lstCxC.add(ab);
             }
             conexion.cerrarConexiones();
@@ -314,12 +321,14 @@ public class DAO_Abono {
                     + "SUM(abonos.abono) as pagado\n"
                     + ",\n"
                     + "	venta.fecha,\n"
-                    + "detventa.total\n"
+                    + "detventa.total,"
+                    + "productos.nombre\n"
                     + "FROM\n"
                     + "	detventa\n"
                     + "INNER JOIN venta ON detventa.id_venta = venta.id_venta\n"
                     + "INNER JOIN clientes ON venta.cliente = clientes.id_cliente\n"
                     + "INNER JOIN abonos ON abonos.id_detventa = detventa.id_detVenta\n"
+                    + "INNER JOIN productos ON productos.id_producto = detventa.idProd\n"
                     + "WHERE detventa.estado=0 AND clientes.DUI LIKE '%" + dui + "%'"
                     + "GROUP BY venta.factura ORDER BY clientes.nombres desc";
             PreparedStatement ps = accesoDB.prepareStatement(sql);
@@ -333,6 +342,7 @@ public class DAO_Abono {
                 ab.setSaldoPendiente(rs.getDouble(4));
                 ab.setFechaCredito(rs.getDate(5));
                 ab.setCredInicial(rs.getDouble(6));
+                ab.setProducto(rs.getString(7));
                 lstCxC.add(ab);
             }
             conexion.cerrarConexiones();
