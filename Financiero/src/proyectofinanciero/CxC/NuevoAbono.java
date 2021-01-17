@@ -439,7 +439,7 @@ public class NuevoAbono extends javax.swing.JFrame {
     }
 
     private void mora(Double morita) {
-        if (moratorio.compareTo(fec) > 0) {
+        if (moratorio.compareTo(fec) < 0) {
             Double mora = morita * 0.05;
             txtMora.setText(String.format("%.2f", mora));
         }
