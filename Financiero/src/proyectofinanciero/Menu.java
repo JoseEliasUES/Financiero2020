@@ -56,6 +56,7 @@ public class Menu extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu16 = new javax.swing.JMenu();
+        jMenu23 = new javax.swing.JMenu();
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -152,6 +153,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/af2.png"))); // NOI18N
         jMenu4.setText("Activo Fijo");
+        jMenu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu4MouseClicked(evt);
+            }
+        });
 
         jMenu16.setText("Registrar");
         jMenu16.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -160,6 +166,14 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenu16);
+
+        jMenu23.setText("Listado de Bienes");
+        jMenu23.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu23MouseClicked(evt);
+            }
+        });
+        jMenu4.add(jMenu23);
 
         jMenu12.setText("Depreciación");
         jMenu4.add(jMenu12);
@@ -318,6 +332,16 @@ public class Menu extends javax.swing.JFrame {
         c.setVisible(true);
     }//GEN-LAST:event_jMenu8MouseClicked
 
+    private void jMenu4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu4MouseClicked
+
+    private void jMenu23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu23MouseClicked
+        // TODO add your handling code here:
+        ListaActivo lsA = new ListaActivo();
+        lsA.setVisible(true);
+    }//GEN-LAST:event_jMenu23MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -370,6 +394,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu20;
     private javax.swing.JMenu jMenu21;
     private javax.swing.JMenu jMenu22;
+    private javax.swing.JMenu jMenu23;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

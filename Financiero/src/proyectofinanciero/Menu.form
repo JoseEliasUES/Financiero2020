@@ -106,6 +106,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Activo Fijo"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu4MouseClicked"/>
+          </Events>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="jMenu16">
               <Properties>
@@ -113,6 +116,14 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu16MouseClicked"/>
+              </Events>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenu23">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Listado de Bienes"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu23MouseClicked"/>
               </Events>
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu12">
