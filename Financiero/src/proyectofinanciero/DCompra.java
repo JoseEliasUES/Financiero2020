@@ -383,6 +383,7 @@ public class DCompra extends javax.swing.JFrame {
             });
 
             JOptionPane.showMessageDialog(this, "Datos Guardados con éxito");
+            dispose();
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 

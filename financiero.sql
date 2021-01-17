@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-01-2021 a las 18:11:37
+-- Tiempo de generación: 17-01-2021 a las 23:37:23
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -44,7 +44,16 @@ CREATE TABLE `abonos` (
 --
 
 INSERT INTO `abonos` (`id_abono`, `id_detventa`, `fecha`, `hora`, `abono`, `mora`, `prox_pago`, `comentario`) VALUES
-(8, 18, '2019-12-21', '15:11:18', 2.72, 0, '2019-12-21', 'Prima');
+(2, 3, '2021-01-15', '00:00:00', 0, 0, '2021-02-14', NULL),
+(3, 3, '2021-01-16', NULL, 80, 0, '2021-03-16', NULL),
+(4, 3, '2021-01-16', NULL, 100, 0, '2021-04-15', NULL),
+(5, 6, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
+(6, 7, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
+(7, 7, '2021-01-16', NULL, 100, 0, '2021-03-17', NULL),
+(8, 3, '2021-01-16', NULL, 80, 0, '2021-05-15', NULL),
+(9, 7, '2021-01-16', NULL, 80, 0, '2021-04-16', NULL),
+(10, 9, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
+(11, 12, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL);
 
 -- --------------------------------------------------------
 
@@ -64,7 +73,8 @@ CREATE TABLE `categoria` (
 
 INSERT INTO `categoria` (`id_categoria`, `descripcion`, `catNombre`) VALUES
 (1, 'BAÑO, PISOS, ETC', 'LIMPIEZA'),
-(2, 'PLANCHAS, OLLAS, ETC', 'COCINA');
+(2, 'PLANCHAS, OLLAS, ETC', 'COCINA'),
+(3, 'PC, SMARTPHONE, ETC', 'TECNOLOGIA');
 
 -- --------------------------------------------------------
 
@@ -90,7 +100,8 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id_cliente`, `nombres`, `apellidos`, `DUI`, `sexo`, `telefono`, `email`, `direccion`, `estado`) VALUES
 (1, 'Juan Vladimir', 'Perez Molina', '23451648-9', 'Masculino', '23934589', 'perez@email', 'direcccc', 1),
-(2, 'Rosa Pamela', 'Zaragosa Merino', '4578897-7', 'Femenino', '2389-4545', 'email', 'ddi', 0);
+(2, 'Rosa Pamela', 'Zaragosa Merino', '4578897-7', 'Femenino', '2389-4545', 'email', 'ddi', 0),
+(3, 'Juan Manuel ', 'Lopez', '03984028-3', 'masculino', '7489-2384', 'juan@gmail.com', 'La casa de la esquina 2', 1);
 
 -- --------------------------------------------------------
 
@@ -123,17 +134,29 @@ CREATE TABLE `detcompra` (
   `precCompra` double NOT NULL,
   `cantidad` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
-  `id_compra` int(11) NOT NULL
+  `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `detcompra`
 --
 
-INSERT INTO `detcompra` (`id_detCompra`, `precCompra`, `cantidad`, `id_producto`, `id_compra`) VALUES
-(1, 5, 10, 1, 1),
-(2, 10, 50, 3, 2),
-(3, 15, 25, 4, 2);
+INSERT INTO `detcompra` (`id_detCompra`, `precCompra`, `cantidad`, `id_producto`, `fecha`) VALUES
+(6, 2500, 3, 6, '2021-01-12'),
+(7, 3000, 4, 8, '2021-01-12'),
+(8, 800, 2, 6, '2021-01-13'),
+(9, 8000, 6, 9, '2021-01-17');
+
+--
+-- Disparadores `detcompra`
+--
+DELIMITER $$
+CREATE TRIGGER `Trigger_IncStock` AFTER INSERT ON `detcompra` FOR EACH ROW update productos 
+set stock = stock + new.cantidad,
+precio = (new.precCompra*1.05)/new.cantidad
+where productos.id_producto = new.id_producto
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -157,8 +180,27 @@ CREATE TABLE `detventa` (
 --
 
 INSERT INTO `detventa` (`id_detVenta`, `id_venta`, `idProd`, `cantidad`, `meses`, `estado`, `cuota`, `total`) VALUES
-(18, 18, 1, 1, 24, 0, 0.34, 8.25),
-(19, 19, 4, 1, 24, 0, 1.03, 24.75);
+(1, 20, 8, 2, 0, 1, NULL, 2000),
+(2, 22, 6, 1, 24, 0, 80, 1920),
+(3, 23, 6, 1, 24, 0, 80, 1920),
+(4, 24, 8, 1, 0, 1, 0, 450),
+(5, 25, 6, 1, 0, 1, 0, 1200),
+(6, 26, 6, 1, 0, 1, 0, 1200),
+(7, 27, 6, 1, 24, 0, 80, 1920),
+(8, 28, 8, 1, 0, 1, 0, 450),
+(9, 29, 8, 1, 12, 0, 48.75, 1785),
+(10, 29, 6, 1, 0, 1, 0, 1785),
+(11, 30, 8, 1, 0, 1, 0, 450),
+(12, 30, 6, 1, 36, 0, 63.333333333333336, 2280);
+
+--
+-- Disparadores `detventa`
+--
+DELIMITER $$
+CREATE TRIGGER `Trigger_DecStock` AFTER INSERT ON `detventa` FOR EACH ROW update productos set stock = stock - new.cantidad 
+where productos.id_producto = new.idProd
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -204,7 +246,9 @@ CREATE TABLE `marca` (
 INSERT INTO `marca` (`id_marca`, `nombre`, `descripcion`) VALUES
 (1, 'GARCILLEJA', 'No te conozco, lo siento'),
 (2, 'SAMSUNG', 'Una empresa coreana'),
-(3, 'LG', 'Otros coreanos, o eso creo');
+(3, 'LG', 'Otros coreanos, o eso creo'),
+(4, 'DELL', 'EQUIPO ELECTRONICO'),
+(5, 'HP', 'EQUIPO INFORMATICO');
 
 -- --------------------------------------------------------
 
@@ -235,21 +279,23 @@ INSERT INTO `margenganancia` (`id_margen`, `fecha`, `porcentaje`, `categoria`) V
 CREATE TABLE `productos` (
   `id_producto` int(11) NOT NULL,
   `nombre` varchar(75) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `modelo` int(100) NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
+  `modelo` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `stock` int(11) NOT NULL,
   `id_marca` int(11) NOT NULL,
-  `id_categoria` int(11) NOT NULL
+  `id_categoria` int(11) NOT NULL,
+  `id_proveedor` int(11) NOT NULL,
+  `precio` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `modelo`, `stock`, `id_marca`, `id_categoria`) VALUES
-(1, 'Petuky', 'Shampoo', 3425, 10, 1, 1),
-(3, 'SmartTV', '42 pulgadas', 235689, 20, 1, 1),
-(4, 'Plancha', 'de ropa', 4589, 50, 1, 1);
+INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `modelo`, `stock`, `id_marca`, `id_categoria`, `id_proveedor`, `precio`) VALUES
+(6, 'Smartphone', '4G LTE 3gb ram', 'S20', 0, 2, 1, 4, 1200),
+(8, 'Samsung Galaxy S6', '3 gb ram\n32 gb almacenamiento\n4g lte', 'SM-G925P', 0, 2, 2, 4, 450),
+(9, 'SmartTV', 'Pantalla plana de 42 pulgadas\nBluetooth 4.2\nHDMI VGA\n5000 colores\n', 'JDU746', 6, 2, 3, 4, 1400);
 
 -- --------------------------------------------------------
 
@@ -284,7 +330,7 @@ INSERT INTO `proveedor` (`id_proveedor`, `nombre`, `direccion`, `telefono`, `cor
 CREATE TABLE `venta` (
   `id_venta` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `empleado` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
+  `empleado` varchar(11) COLLATE utf8_spanish_ci DEFAULT NULL,
   `cliente` int(11) NOT NULL,
   `factura` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -295,7 +341,18 @@ CREATE TABLE `venta` (
 
 INSERT INTO `venta` (`id_venta`, `fecha`, `empleado`, `cliente`, `factura`) VALUES
 (18, '2019-12-21', '45897845-8', 2, 'F-00000'),
-(19, '2019-12-21', '45897845-8', 1, 'F-00001');
+(19, '2019-12-21', '45897845-8', 1, 'F-00001'),
+(20, '2020-12-08', '45897845-8', 2, 'F-00002'),
+(21, '2020-12-09', '45897845-8', 2, 'F-00003'),
+(22, '2020-12-11', '45897845-8', 2, 'F-00004'),
+(23, '2021-01-15', NULL, 1, 'F-00005'),
+(24, '2021-01-16', NULL, 1, 'F-00006'),
+(25, '2021-01-16', NULL, 1, 'F-00007'),
+(26, '2021-01-16', NULL, 2, 'F-00008'),
+(27, '2021-01-16', NULL, 2, 'F-00009'),
+(28, '2021-01-16', NULL, 1, 'F-00010'),
+(29, '2021-01-16', NULL, 1, 'F-00011'),
+(30, '2021-01-16', NULL, 2, 'F-00012');
 
 --
 -- Índices para tablas volcadas
@@ -332,8 +389,7 @@ ALTER TABLE `compra`
 --
 ALTER TABLE `detcompra`
   ADD PRIMARY KEY (`id_detCompra`),
-  ADD KEY `id_producto` (`id_producto`),
-  ADD KEY `id_compra` (`id_compra`);
+  ADD KEY `id_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `detventa`
@@ -368,7 +424,8 @@ ALTER TABLE `margenganancia`
 ALTER TABLE `productos`
   ADD PRIMARY KEY (`id_producto`),
   ADD KEY `id_marca` (`id_marca`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`),
+  ADD KEY `id_proveedor` (`id_proveedor`);
 
 --
 -- Indices de la tabla `proveedor`
@@ -392,7 +449,7 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de la tabla `abonos`
 --
 ALTER TABLE `abonos`
-  MODIFY `id_abono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_abono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `categoria`
@@ -404,7 +461,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `compra`
@@ -416,19 +473,19 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `detcompra`
 --
 ALTER TABLE `detcompra`
-  MODIFY `id_detCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_detCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `detventa`
 --
 ALTER TABLE `detventa`
-  MODIFY `id_detVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_detVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
 --
 ALTER TABLE `marca`
-  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_marca` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `margenganancia`
@@ -440,7 +497,7 @@ ALTER TABLE `margenganancia`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedor`
@@ -452,7 +509,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Restricciones para tablas volcadas
@@ -474,8 +531,7 @@ ALTER TABLE `compra`
 -- Filtros para la tabla `detcompra`
 --
 ALTER TABLE `detcompra`
-  ADD CONSTRAINT `detcompra_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`),
-  ADD CONSTRAINT `detcompra_ibfk_2` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id_compra`);
+  ADD CONSTRAINT `detcompra_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`);
 
 --
 -- Filtros para la tabla `detventa`
@@ -495,7 +551,8 @@ ALTER TABLE `margenganancia`
 --
 ALTER TABLE `productos`
   ADD CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id_marca`),
-  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`);
+  ADD CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`),
+  ADD CONSTRAINT `productos_ibfk_3` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`);
 
 --
 -- Filtros para la tabla `venta`

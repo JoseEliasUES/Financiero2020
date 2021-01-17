@@ -485,6 +485,10 @@ public class Productos extends javax.swing.JFrame {
     public void limpiar() {
         txtModelo.setText("");
         txtNombre.setText("");
+        cMarca.setSelectedIndex(0);
+        cCat.setSelectedIndex(0);
+        cmbP.setSelectedIndex(0);
+        txtDesc.setText("");
     }
 
     private boolean busqM(Integer nombre) throws SQLException {

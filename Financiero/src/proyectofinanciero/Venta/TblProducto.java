@@ -299,7 +299,7 @@ public class TblProducto extends javax.swing.JFrame {
                     double cuota = Cuota(mes);
                     txtCuota.setText(String.valueOf(cuota));
                     subtotal = total;
-                    prodAVender.add(new Venta(productoS, cantidad, cuota, subtotal,meses));
+                    prodAVender.add(new Venta(productoS, cantidad, cuota, subtotal, meses));
                 } else {
                     JOptionPane.showMessageDialog(this, "Seleccione cantidad de meses");
                 }
@@ -312,17 +312,9 @@ public class TblProducto extends javax.swing.JFrame {
             }
 
 //        double total = Double.parseDouble(txtTotal.getText());
-            int id;
-            String nombre;
-            if (x == -1) {
-                JOptionPane.showMessageDialog(this, "Seleccione un producto");
-            } else {
-                id = Integer.parseInt(tblProductos.getValueAt(x, 0).toString());
-                nombre = tblProductos.getValueAt(x, 1).toString();
 //            prodAComprar.add(new Producto(id, nombre, cantidad, Double.parseDouble(String.format("%.2f", total))));
-                Menu.v.ActualizarTabla();
-                dispose();
-            }
+            Menu.v.ActualizarTabla();
+            dispose();
         }
     }//GEN-LAST:event_btnAggActionPerformed
 
@@ -376,6 +368,15 @@ public class TblProducto extends javax.swing.JFrame {
         } else {
             uTotal();
         }
+        int x = tblProductos.getSelectedRow();
+        int stock = (int) tblProductos.getValueAt(x, 4);
+        int c = (int) spCantidad.getValue();
+        if (stock < c) {
+            JOptionPane.showMessageDialog(this, "No hay unidades suficientes de este producto en stock");
+            btnAgg.setEnabled(false);
+        } else {
+            btnAgg.setEnabled(true);
+        }
     }//GEN-LAST:event_spCantidadStateChanged
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
@@ -384,6 +385,14 @@ public class TblProducto extends javax.swing.JFrame {
             uCuota();
         } else {
             uTotal();
+        }
+        int x = tblProductos.getSelectedRow();
+        int stock = (int) tblProductos.getValueAt(x, 4);
+        if (stock == 0) {
+            JOptionPane.showMessageDialog(this, "No hay unidades de este producto en stock");
+            btnAgg.setEnabled(false);
+        } else {
+            btnAgg.setEnabled(true);
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
