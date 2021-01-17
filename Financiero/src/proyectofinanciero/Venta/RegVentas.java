@@ -296,6 +296,7 @@ public void total(){
         }else{
         trv = new tablaRegVentas(dui);
         tblSalidas.setModel(trv);
+        total();
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
