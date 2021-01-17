@@ -32,6 +32,18 @@ public class Cliente {
         this.estado = estado;
     }
 
+    public Cliente(int idCliente, String nombre, String apellido, String dui, String sexo, String telefono, String email, String direccion, int estado) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.dui = dui;
+        this.sexo = sexo;
+        this.telefono = telefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.estado = estado;
+    }
+
     public Cliente(String nombre, String apellido, String dui) {
         this.nombre = nombre;
         this.apellido = apellido;

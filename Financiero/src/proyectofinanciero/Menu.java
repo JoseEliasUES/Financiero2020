@@ -55,10 +55,10 @@ public class Menu extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
         jMenu16 = new javax.swing.JMenu();
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
         jMenu9 = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
         jMenu22 = new javax.swing.JMenu();
@@ -153,10 +153,12 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/af2.png"))); // NOI18N
         jMenu4.setText("Activo Fijo");
 
-        jMenu8.setText("Catálogo de Códigos");
-        jMenu4.add(jMenu8);
-
-        jMenu16.setText("Bienes");
+        jMenu16.setText("Registrar");
+        jMenu16.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu16MouseClicked(evt);
+            }
+        });
         jMenu4.add(jMenu16);
 
         jMenu12.setText("Depreciación");
@@ -166,6 +168,20 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/cliente_(1)_1.png"))); // NOI18N
         jMenu13.setText("Clientes");
+        jMenu13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu13MouseClicked(evt);
+            }
+        });
+
+        jMenu8.setText("Registrar Cliente");
+        jMenu8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu8MouseClicked(evt);
+            }
+        });
+        jMenu13.add(jMenu8);
+
         jMenuBar1.add(jMenu13);
 
         jMenu9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/ventas.jpg"))); // NOI18N
@@ -285,6 +301,22 @@ public class Menu extends javax.swing.JFrame {
         rcc = new RefCxC();
         rcc.setVisible(true);
     }//GEN-LAST:event_jMenu17MouseClicked
+
+    private void jMenu13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu13MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu13MouseClicked
+
+    private void jMenu16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu16MouseClicked
+        // TODO add your handling code here:
+        Activofijos aFijo = new Activofijos();
+        aFijo.setVisible(true);
+    }//GEN-LAST:event_jMenu16MouseClicked
+
+    private void jMenu8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu8MouseClicked
+        // TODO add your handling code here:
+        Clientes c = new Clientes();
+        c.setVisible(true);
+    }//GEN-LAST:event_jMenu8MouseClicked
 
     /**
      * @param args the command line arguments

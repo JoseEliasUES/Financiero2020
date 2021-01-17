@@ -107,15 +107,13 @@
             <Property name="text" type="java.lang.String" value="Activo Fijo"/>
           </Properties>
           <SubComponents>
-            <Menu class="javax.swing.JMenu" name="jMenu8">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cat&#xe1;logo de C&#xf3;digos"/>
-              </Properties>
-            </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu16">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Bienes"/>
+                <Property name="text" type="java.lang.String" value="Registrar"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu16MouseClicked"/>
+              </Events>
             </Menu>
             <Menu class="javax.swing.JMenu" name="jMenu12">
               <Properties>
@@ -131,6 +129,19 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Clientes"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu13MouseClicked"/>
+          </Events>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenu8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Registrar Cliente"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu8MouseClicked"/>
+              </Events>
+            </Menu>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu9">
           <Properties>
