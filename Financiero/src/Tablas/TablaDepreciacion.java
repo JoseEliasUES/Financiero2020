@@ -22,23 +22,32 @@ public class TablaDepreciacion extends AbstractTableModel {
     Depreciacion d;
     ArrayList<String> tipoAc;
     Double depreciate;
-
+    Double acumulado;
+    Double vLibros;
     public TablaDepreciacion(Integer idActivo) {
         aFijo = new ArrayList();
         daoA = new DAO_Activofijo();
         aFijo = daoA.getLsActivosf(idActivo);
         d = aFijo.get(0);
         depreciate = 0.0;
+        acumulado = 0.0;
+        vLibros = d.getValor();
         tipoAc();
     }
 
     @Override
     public int getRowCount() {
         int rows = aFijo.get(0).getAnios();
-        if (rows >= 6) {
+        if ("Edificaciones".equals(aFijo.get(0).getTipo()) && rows >= 20) {
+            return 21;
+        } else if ("Edificaciones".equals(aFijo.get(0).getTipo()) && rows <= 20) {
+            return rows+1;
+        } else if (rows >= 6) {
             return 6;
+        } else if (rows == 0) {
+            return 1;
         } else {
-            return rows;
+            return rows+1;
         }
     }
 
@@ -51,11 +60,13 @@ public class TablaDepreciacion extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return d.getAdquisicion() + d.getAnios();
+                return periodo(rowIndex);
             case 1:
-                return calculo(rowIndex);
-            case 2: 
-                return acc(rowIndex);
+                return String.format("%.2f", calculo(rowIndex));
+            case 2:
+                return String.format("%.2f", acc(rowIndex));
+            case 3:
+                return String.format("%.2f", valorL(rowIndex));
         }
         return null;
     }
@@ -127,7 +138,22 @@ public class TablaDepreciacion extends AbstractTableModel {
     private Object acc(int rowIndex) {
         if (rowIndex == 0) {
             return 0.0;
+        } else {
+            acumulado += depreciate;
+            return acumulado;
         }
-        return null;
+    }
+
+    private Object valorL(int rowIndex) {
+        if (rowIndex == 0) {
+            return d.getValor();
+        } else {
+            vLibros -= depreciate;
+            return vLibros;
+        }
+    }
+
+    private Object periodo(int columnIndex) {
+        return (d.getAdquisicion() + columnIndex);
     }
 }

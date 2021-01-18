@@ -152,7 +152,7 @@ public class DAO_Activofijo {
                 act.setDescripcion(rs.getString(2));
                 act.setValor(rs.getDouble(3));
                 act.setTipo(rs.getString(4));
-                act.setAnios(rs.getInt(rs.getInt(5)));
+                act.setAnios(rs.getInt(5));
                 act.setAdquisicion(rs.getInt(6));
                 lsActivo.add(act);
             }
@@ -162,6 +162,39 @@ public class DAO_Activofijo {
 
         }
         return lsActivo;
+    }
+
+    public ArrayList<Activofijo> getLsActivosf(String code) {
+        ArrayList<Activofijo> lsActivo = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT * FROM activofijo WHERE descripcion LIKE '%"+code+"%'";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Activofijo act = new Activofijo();
+                act.setId_activof(rs.getInt(1));
+                act.setCodigo(rs.getString(2));
+                act.setDescripcion(rs.getString(3));
+                MarcaV m = new MarcaV();
+                m.setIdMarca(rs.getInt(4));
+                act.setMarca(m);
+                act.setModelo(rs.getString(5));
+                act.setSerie(rs.getString(6));
+                act.setFechaadq(rs.getDate(7));
+                act.setValor(rs.getDouble(8));
+                act.setTipo(rs.getString(9));
+                lsActivo.add(act);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return lsActivo;
+
     }
 
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-01-2021 a las 23:37:23
+-- Tiempo de generación: 18-01-2021 a las 04:21:14
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -145,7 +145,8 @@ INSERT INTO `detcompra` (`id_detCompra`, `precCompra`, `cantidad`, `id_producto`
 (6, 2500, 3, 6, '2021-01-12'),
 (7, 3000, 4, 8, '2021-01-12'),
 (8, 800, 2, 6, '2021-01-13'),
-(9, 8000, 6, 9, '2021-01-17');
+(9, 8000, 6, 9, '2021-01-17'),
+(10, 3280, 5, 6, '2021-01-17');
 
 --
 -- Disparadores `detcompra`
@@ -293,7 +294,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `modelo`, `stock`, `id_marca`, `id_categoria`, `id_proveedor`, `precio`) VALUES
-(6, 'Smartphone', '4G LTE 3gb ram', 'S20', 0, 2, 1, 4, 1200),
+(6, 'Smartphone', '4G LTE 3gb ram', 'S20', 5, 2, 1, 4, 688.8),
 (8, 'Samsung Galaxy S6', '3 gb ram\n32 gb almacenamiento\n4g lte', 'SM-G925P', 0, 2, 2, 4, 450),
 (9, 'SmartTV', 'Pantalla plana de 42 pulgadas\nBluetooth 4.2\nHDMI VGA\n5000 colores\n', 'JDU746', 6, 2, 3, 4, 1400);
 
@@ -473,7 +474,7 @@ ALTER TABLE `compra`
 -- AUTO_INCREMENT de la tabla `detcompra`
 --
 ALTER TABLE `detcompra`
-  MODIFY `id_detCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_detCompra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `detventa`

@@ -368,10 +368,10 @@ public class Activofijos extends javax.swing.JFrame {
         
         String typ="";
         switch(tipo){
-            case 1: typ="edificaciones"; break; 
-            case 2: typ="maquinaria"; break; 
-            case 3: typ="vehiculo"; break; 
-            case 4: typ="otros"; break; 
+            case 1: typ="Edificaciones"; break; 
+            case 2: typ="Maquinaria"; break; 
+            case 3: typ="Vehiculos"; break; 
+            case 4: typ="Otros"; break; 
         }
         if (selectMar == 0 || txtCodigo.getText().isEmpty()  || txtDescripcion.getText().isEmpty() || !"".equals(modelo) || !"".equals(modelo)
                 || !"".equals(serie) || !"".equals(txtValor.getText()) || tipo==0 ) {

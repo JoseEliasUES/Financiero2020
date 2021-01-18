@@ -36,6 +36,12 @@ public class tablaActivof extends AbstractTableModel  {
         this.lsActivof = tipo;
     }
 
+    public tablaActivof(String code) {
+        m =new DAO_Marca();
+        daoAct = new DAO_Activofijo();
+        lsActivof = daoAct.getLsActivosf(code);
+    }
+
     @Override
     public int getRowCount() {
         return lsActivof.size();
