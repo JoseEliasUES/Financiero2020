@@ -232,7 +232,7 @@ public class Activofijos extends javax.swing.JFrame {
 
         jLabel10.setText("Tipo");
 
-        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "edificaciones", "maquinaria", "vehiculos", "otros" }));
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Edificaciones", "Maquinaria", "Vehiculos", "Otros" }));
 
         jLabel11.setText("Fecha Adquisicion");
 

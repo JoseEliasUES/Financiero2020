@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelos.Activofijo;
+import modelos.Depreciacion;
 import modelos.MarcaV;
 
 public class DAO_Activofijo {
@@ -58,16 +59,14 @@ public class DAO_Activofijo {
 
     }
 
-    
-
     public void nuevoActivof(Activofijo activo) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             this.conexion.getConexion();
             Statement st = this.conexion.getConexion().createStatement();
             st.executeUpdate("INSERT INTO `activofijo`(`codigo`, `descripcion`, `marca_id`, `modelo`, `serie`, `fechaadq`, `valor`, `tipo`) VALUES (\n"
-                    + "'" + activo.getCodigo()+ "','" + activo.getDescripcion()+ "','" + activo.getMarca().getIdMarca()+ "','" + activo.getModelo()+ "',\n"
-                    + "'" + activo.getSerie()+ "','" + sdf.format(activo.getFechaadq())+ "','" + activo.getValor()+ "','" + activo.getTipo()+ "')");
+                    + "'" + activo.getCodigo() + "','" + activo.getDescripcion() + "','" + activo.getMarca().getIdMarca() + "','" + activo.getModelo() + "',\n"
+                    + "'" + activo.getSerie() + "','" + sdf.format(activo.getFechaadq()) + "','" + activo.getValor() + "','" + activo.getTipo() + "')");
             conexion.cerrarConexiones();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -84,14 +83,14 @@ public class DAO_Activofijo {
             st.executeUpdate("UPDATE\n"
                     + "    activofijo\n"
                     + "SET\n"
-                    + "    codigo = '" + activo.getCodigo()+ "',\n"
+                    + "    codigo = '" + activo.getCodigo() + "',\n"
                     + "    descripcion = '" + activo.getDescripcion() + "',\n"
-                    + "    marca_id = '" + activo.getMarca().getIdMarca()+ "',\n"
-                    + "    modelo = '" + activo.getModelo()+ "',\n"
-                    + "    serie = '" + activo.getSerie()+ "',\n"
-                    + "    fechaadq='" + sdf.format(activo.getFechaadq())+ "',\n"
-                    + "    valor='"+ activo.getValor()+ "',\n"
-                    + "    tipo='" + activo.getTipo()+ "'\n"
+                    + "    marca_id = '" + activo.getMarca().getIdMarca() + "',\n"
+                    + "    modelo = '" + activo.getModelo() + "',\n"
+                    + "    serie = '" + activo.getSerie() + "',\n"
+                    + "    fechaadq='" + sdf.format(activo.getFechaadq()) + "',\n"
+                    + "    valor='" + activo.getValor() + "',\n"
+                    + "    tipo='" + activo.getTipo() + "'\n"
                     + "WHERE id_activof= '" + activo.getId_activof() + "'");
             conexion.cerrarConexiones();
         } catch (SQLException e) {
@@ -100,7 +99,7 @@ public class DAO_Activofijo {
         }
 
     }
-    
+
     public Activofijo getActivof(Integer nombre) throws SQLException {
         Activofijo act = new Activofijo();
         try {
@@ -127,6 +126,42 @@ public class DAO_Activofijo {
 
         }
         return act;
+    }
+
+    public ArrayList<Depreciacion> getLsActivosf(Integer idActivo) {
+        ArrayList<Depreciacion> lsActivo = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            Connection accesoDB = conexion.getConexion();
+            String sql = "SELECT\n"
+                    + "activofijo.id_activof,\n"
+                    + "activofijo.descripcion,\n"
+                    + "activofijo.valor,\n"
+                    + "activofijo.tipo,\n"
+                    + "TIMESTAMPDIFF(YEAR ,activofijo.fechaadq,CURDATE()) AS anios,\n"
+                    + "YEAR(activofijo.fechaadq) as adquisicion\n"
+                    + "FROM\n"
+                    + "activofijo\n"
+                    + "WHERE id_activof = '"+idActivo+"'";
+            PreparedStatement ps = accesoDB.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Depreciacion act = new Depreciacion();
+                act.setIdActivo(rs.getInt(1));
+                act.setDescripcion(rs.getString(2));
+                act.setValor(rs.getDouble(3));
+                act.setTipo(rs.getString(4));
+                act.setAnios(rs.getInt(rs.getInt(5)));
+                act.setAdquisicion(rs.getInt(6));
+                lsActivo.add(act);
+            }
+            conexion.cerrarConexiones();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "ERROR: " + e, "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        return lsActivo;
     }
 
 }

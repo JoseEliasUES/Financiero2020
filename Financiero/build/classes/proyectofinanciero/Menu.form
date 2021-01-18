@@ -130,6 +130,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Depreciaci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenu12MouseClicked"/>
+              </Events>
             </Menu>
           </SubComponents>
         </Menu>

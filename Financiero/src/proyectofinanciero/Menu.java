@@ -176,6 +176,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu4.add(jMenu23);
 
         jMenu12.setText("Depreciación");
+        jMenu12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu12MouseClicked(evt);
+            }
+        });
         jMenu4.add(jMenu12);
 
         jMenuBar1.add(jMenu4);
@@ -341,6 +346,12 @@ public class Menu extends javax.swing.JFrame {
         ListaActivo lsA = new ListaActivo();
         lsA.setVisible(true);
     }//GEN-LAST:event_jMenu23MouseClicked
+
+    private void jMenu12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu12MouseClicked
+        // TODO add your handling code here:
+        Depreciacion dep= new Depreciacion();
+        dep.setVisible(true);
+    }//GEN-LAST:event_jMenu12MouseClicked
 
     /**
      * @param args the command line arguments
