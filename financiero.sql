@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-01-2021 a las 04:21:14
+-- Tiempo de generación: 18-01-2021 a las 04:40:14
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -54,6 +54,35 @@ INSERT INTO `abonos` (`id_abono`, `id_detventa`, `fecha`, `hora`, `abono`, `mora
 (9, 7, '2021-01-16', NULL, 80, 0, '2021-04-16', NULL),
 (10, 9, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
 (11, 12, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `activofijo`
+--
+
+CREATE TABLE `activofijo` (
+  `id_activof` int(11) NOT NULL,
+  `codigo` varchar(25) COLLATE utf8_spanish2_ci NOT NULL,
+  `descripcion` varchar(65) COLLATE utf8_spanish2_ci NOT NULL,
+  `marca_id` int(11) NOT NULL,
+  `modelo` varchar(65) COLLATE utf8_spanish2_ci NOT NULL,
+  `serie` varchar(65) COLLATE utf8_spanish2_ci NOT NULL,
+  `fechaadq` date NOT NULL,
+  `valor` double NOT NULL,
+  `tipo` varchar(25) COLLATE utf8_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `activofijo`
+--
+
+INSERT INTO `activofijo` (`id_activof`, `codigo`, `descripcion`, `marca_id`, `modelo`, `serie`, `fechaadq`, `valor`, `tipo`) VALUES
+(1, '12232-2333-098-7654-67656', 'PC COMPAQ 8000', 4, 'HP092', 'WT5436534', '2021-01-16', 725, 'Otros'),
+(2, '65334-8753-098-0039-65434', 'impresora DELL 2000', 4, 'imp234', 'kf202012', '1999-01-13', 200.75, 'Edificaciones'),
+(3, '28367-4638-275-6438-45543', 'SWITCH CISVO', 5, 'CIS342', 'W3323', '2021-01-16', 900, 'Maquinaria'),
+(4, '27382-1372-183-8232-31333', 'IZUZU ANIO 2009', 1, 'IZUZU', 'AB5347', '2018-01-12', 56000, 'Vehiculos'),
+(5, '12381-9389-329-2932-13321', 'Monitor LCD', 3, 'LG 2345', '1000', '2014-01-15', 300, 'Maquinaria');
 
 -- --------------------------------------------------------
 
@@ -367,6 +396,13 @@ ALTER TABLE `abonos`
   ADD KEY `fk_idDetVenta` (`id_detventa`);
 
 --
+-- Indices de la tabla `activofijo`
+--
+ALTER TABLE `activofijo`
+  ADD PRIMARY KEY (`id_activof`),
+  ADD KEY `marca_id` (`marca_id`);
+
+--
 -- Indices de la tabla `categoria`
 --
 ALTER TABLE `categoria`
@@ -453,6 +489,12 @@ ALTER TABLE `abonos`
   MODIFY `id_abono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT de la tabla `activofijo`
+--
+ALTER TABLE `activofijo`
+  MODIFY `id_activof` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
@@ -521,6 +563,12 @@ ALTER TABLE `venta`
 --
 ALTER TABLE `abonos`
   ADD CONSTRAINT `abonos_ibfk_1` FOREIGN KEY (`id_detventa`) REFERENCES `detventa` (`id_detVenta`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `activofijo`
+--
+ALTER TABLE `activofijo`
+  ADD CONSTRAINT `activofijo_ibfk_1` FOREIGN KEY (`marca_id`) REFERENCES `marca` (`id_marca`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `compra`
