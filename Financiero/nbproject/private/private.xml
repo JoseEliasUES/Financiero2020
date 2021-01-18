@@ -3,25 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/DAO/DAO_Venta.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/CxC/RefCxC.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/modelos/RegVentas.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/Tablas/tablaInvEx.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/modelos/Abono.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Inventario/Inventario.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/Tablas/tablaRegVentas.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/modelos/Producto.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/DAO/DAO_Abono.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/DAO/DAO_Categoria.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/DCompra.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/DAO/DAO_detalleCompra.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Venta/TblProducto.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/DAO/DAO_Inventario.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/Tablas/tablaCuentasxCobrar.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Venta/RegVentas.java</file>
+            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Venta/FacturaVenta.java</file>
             <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/CxC/NuevoAbono.java</file>
-            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Venta/FrmVenta.java</file>
+            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/CxC/FacturaAbono.java</file>
             <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Menu.java</file>
+            <file>file:/C:/Users/gemelos/Documents/Financiero%202020/ProyectoFinanciero/Financiero/src/proyectofinanciero/Venta/FrmVenta.java</file>
         </group>
     </open-files>
 </project-private>

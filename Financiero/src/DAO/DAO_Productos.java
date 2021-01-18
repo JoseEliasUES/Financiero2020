@@ -257,5 +257,14 @@ public class DAO_Productos {
         }
         return productos;
     }
-
+    public Producto busqM(Integer nombre) throws SQLException {
+        DAO_Productos daoM = new DAO_Productos();
+        for (Producto x : daoM.getProductos()) {
+            if (nombre.equals(x.getId())) {
+                Producto marca = x;
+                return marca;
+            }
+        }
+        return null;
+    }
 }

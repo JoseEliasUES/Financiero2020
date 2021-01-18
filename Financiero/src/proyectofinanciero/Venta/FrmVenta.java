@@ -46,12 +46,15 @@ public class FrmVenta extends javax.swing.JFrame {
     String d;
     DAO_Venta daoVenta;
     DAO_Abono daoBono;
+    FacturaVenta fVenta;
+    ArrayList<DetVenta> datosFactura;
 
     public FrmVenta() {
         initComponents();
         daoVenta = new DAO_Venta();
         daoBono = new DAO_Abono();
         productosV = new ArrayList<>();
+        datosFactura = new ArrayList<>();
         Calendar fecha = new GregorianCalendar();
         d = "dd-MM-yyyy";
         sd = new SimpleDateFormat(d);
@@ -312,6 +315,7 @@ public class FrmVenta extends javax.swing.JFrame {
                     }
                     try {
                         daoVenta.GuardarDetVenta(new DetVenta(daoVenta.selectVenta(), pVenta.getProducto().getId(), pVenta.getCantidad(), pVenta.getMeses(), estado, pVenta.getCuota(), pVenta.getSubtotal()));
+                        datosFactura.add(new DetVenta(daoVenta.selectVenta(), pVenta.getProducto().getId(), pVenta.getCantidad(), pVenta.getMeses(), estado, pVenta.getCuota(), pVenta.getSubtotal()));
                         if (estado == 0) {
                             daoBono.GuardarAbono(new Abono(daoVenta.selectDetVenta(), fechaE, 0.00, 0.00, SigP(fechaE, 30)));
                         }
@@ -319,7 +323,7 @@ public class FrmVenta extends javax.swing.JFrame {
                         Logger.getLogger(FrmVenta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-                JOptionPane.showMessageDialog(this, "Exito");
+                Factura();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Asegurese de seleccionar el cliente, producto o fecha");
@@ -355,6 +359,14 @@ public class FrmVenta extends javax.swing.JFrame {
         calendar.add(calendar.DAY_OF_YEAR, dias);
         return calendar.getTime();
     }
+
+    private void Factura() {
+        String cliente = lblCliente.getText();
+        Date fechaE = FechaEmision.getDate();
+        fVenta = new FacturaVenta(productosV, datosFactura, fechaE, cliente, lblFactura.getText(), SigP(fechaE, 30));
+        fVenta.setVisible(true);
+    }
+
     /**
      * @param args the command line arguments
      */

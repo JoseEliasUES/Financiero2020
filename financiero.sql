@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-01-2021 a las 04:40:14
+-- Tiempo de generación: 18-01-2021 a las 20:59:39
 -- Versión del servidor: 10.1.31-MariaDB
 -- Versión de PHP: 7.2.4
 
@@ -53,7 +53,12 @@ INSERT INTO `abonos` (`id_abono`, `id_detventa`, `fecha`, `hora`, `abono`, `mora
 (8, 3, '2021-01-16', NULL, 80, 0, '2021-05-15', NULL),
 (9, 7, '2021-01-16', NULL, 80, 0, '2021-04-16', NULL),
 (10, 9, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
-(11, 12, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL);
+(11, 12, '2021-01-16', NULL, 0, 0, '2021-02-15', NULL),
+(12, 14, '2021-01-18', NULL, 0, 0, '2021-02-17', NULL),
+(13, 12, '2021-01-18', NULL, 63.33, 0, '2021-03-17', NULL),
+(14, 3, '2021-01-18', NULL, 80, 0, '2021-06-14', NULL),
+(15, 12, '2021-01-18', NULL, 65, 0, '2021-04-16', NULL),
+(16, 3, '2021-01-18', NULL, 90, 0, '2021-07-14', NULL);
 
 -- --------------------------------------------------------
 
@@ -221,7 +226,12 @@ INSERT INTO `detventa` (`id_detVenta`, `id_venta`, `idProd`, `cantidad`, `meses`
 (9, 29, 8, 1, 12, 0, 48.75, 1785),
 (10, 29, 6, 1, 0, 1, 0, 1785),
 (11, 30, 8, 1, 0, 1, 0, 450),
-(12, 30, 6, 1, 36, 0, 63.333333333333336, 2280);
+(12, 30, 6, 1, 36, 0, 63.333333333333336, 2280),
+(13, 31, 9, 1, 0, 1, 0, 1400),
+(14, 32, 9, 1, 12, 0, 151.66666666666666, 1820),
+(15, 33, 6, 1, 0, 1, 0, 688.8),
+(16, 34, 6, 1, 0, 1, 0, 688.8),
+(17, 35, 9, 1, 0, 1, 0, 1400);
 
 --
 -- Disparadores `detventa`
@@ -323,9 +333,9 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `descripcion`, `modelo`, `stock`, `id_marca`, `id_categoria`, `id_proveedor`, `precio`) VALUES
-(6, 'Smartphone', '4G LTE 3gb ram', 'S20', 5, 2, 1, 4, 688.8),
+(6, 'Smartphone', '4G LTE 3gb ram', 'S20', 3, 2, 1, 4, 688.8),
 (8, 'Samsung Galaxy S6', '3 gb ram\n32 gb almacenamiento\n4g lte', 'SM-G925P', 0, 2, 2, 4, 450),
-(9, 'SmartTV', 'Pantalla plana de 42 pulgadas\nBluetooth 4.2\nHDMI VGA\n5000 colores\n', 'JDU746', 6, 2, 3, 4, 1400);
+(9, 'SmartTV', 'Pantalla plana de 42 pulgadas\nBluetooth 4.2\nHDMI VGA\n5000 colores\n', 'JDU746', 3, 2, 3, 4, 1400);
 
 -- --------------------------------------------------------
 
@@ -382,7 +392,12 @@ INSERT INTO `venta` (`id_venta`, `fecha`, `empleado`, `cliente`, `factura`) VALU
 (27, '2021-01-16', NULL, 2, 'F-00009'),
 (28, '2021-01-16', NULL, 1, 'F-00010'),
 (29, '2021-01-16', NULL, 1, 'F-00011'),
-(30, '2021-01-16', NULL, 2, 'F-00012');
+(30, '2021-01-16', NULL, 2, 'F-00012'),
+(31, '2021-01-18', NULL, 3, 'F-00013'),
+(32, '2021-01-18', NULL, 3, 'F-00014'),
+(33, '2021-01-18', NULL, 3, 'F-00015'),
+(34, '2021-01-18', NULL, 2, 'F-00016'),
+(35, '2021-01-18', NULL, 2, 'F-00017');
 
 --
 -- Índices para tablas volcadas
@@ -486,7 +501,7 @@ ALTER TABLE `venta`
 -- AUTO_INCREMENT de la tabla `abonos`
 --
 ALTER TABLE `abonos`
-  MODIFY `id_abono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_abono` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `activofijo`
@@ -522,7 +537,7 @@ ALTER TABLE `detcompra`
 -- AUTO_INCREMENT de la tabla `detventa`
 --
 ALTER TABLE `detventa`
-  MODIFY `id_detVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_detVenta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `marca`
@@ -552,7 +567,7 @@ ALTER TABLE `proveedor`
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_venta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Restricciones para tablas volcadas

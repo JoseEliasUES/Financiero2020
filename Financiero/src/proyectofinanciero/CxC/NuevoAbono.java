@@ -57,6 +57,7 @@ public class NuevoAbono extends javax.swing.JFrame {
         daoVenta = new DAO_Venta();
         d = "dd-MM-yyyy";
         sd = new SimpleDateFormat(d);
+        btnGuardar.setEnabled(false);
         try {
             datosAbono = daoAbo.getDatosClienteParaAbono(factura);
             txtFact.setText(factura);
@@ -118,6 +119,11 @@ public class NuevoAbono extends javax.swing.JFrame {
         txtProxP = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtProducto = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        spAbonoRec = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        lblCambio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -164,7 +170,7 @@ public class NuevoAbono extends javax.swing.JFrame {
         txtFact.setEditable(false);
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jLabel6.setText("Monto abonado");
+        jLabel6.setText("Monto a abonar");
 
         btnGuardar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -222,6 +228,40 @@ public class NuevoAbono extends javax.swing.JFrame {
 
         txtProducto.setEditable(false);
 
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel12.setText("Monto recibido");
+
+        spAbonoRec.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        spAbonoRec.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                spAbonoRecFocusLost(evt);
+            }
+        });
+        spAbonoRec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                spAbonoRecActionPerformed(evt);
+            }
+        });
+        spAbonoRec.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                spAbonoRecKeyTyped(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jButton1.setText("Calcular Cambio");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel13.setText("Cambio  $");
+
+        lblCambio.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblCambio.setText("0.00");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -243,25 +283,34 @@ public class NuevoAbono extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
                             .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtMora, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(spAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(spAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnGuardar))
+                                .addComponent(jLabel12))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtMora, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 112, Short.MAX_VALUE))
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblCambio, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnGuardar)
+                            .addComponent(spAbonoRec, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -277,7 +326,7 @@ public class NuevoAbono extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                                 .addComponent(jLabel10)))
                         .addGap(58, 58, 58)))
                 .addContainerGap())
@@ -315,25 +364,27 @@ public class NuevoAbono extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPpago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(lblPending)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(lblPending)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtProxP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnGuardar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spAbono, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(2, 2, 2)))
-                .addGap(18, 18, 18))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spAbono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(spAbonoRec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel13)
+                    .addComponent(lblCambio))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -390,12 +441,13 @@ public class NuevoAbono extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "MONTO MENOR A CUOTA ESTABLECIDA,PRESTAR ATENCION A LA MORA");
                 } else {
                     try {
-                        daoAbo.GuardarAbono(new Abono(idDetVenta, fecha, abono, mora, sd.parse(flag)));
+                        daoAbo.GuardarAbono(new Abono(idDetVenta, fecha, (abono - mora), mora, sd.parse(flag)));
                     } catch (SQLException | ParseException ex) {
                         Logger.getLogger(NuevoAbono.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     JOptionPane.showMessageDialog(this, "Exito");
                     Menu.rcc.uTabla(datosC.getDui());
+                    factura(fecha, abono, pendiente, flag, mora);
                     dispose();
                 }
             } else {
@@ -403,13 +455,14 @@ public class NuevoAbono extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Monto mayor al valor restante de credito");
                 } else {
                     try {
-                        daoAbo.GuardarAbono(new Abono(idDetVenta, fecha, abono, mora, sd.parse(flag)));
+                        daoAbo.GuardarAbono(new Abono(idDetVenta, fecha, (abono - mora), mora, sd.parse(flag)));
                         daoAbo.setEstado(idDetVenta);
                     } catch (SQLException | ParseException ex) {
                         Logger.getLogger(NuevoAbono.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     JOptionPane.showMessageDialog(this, "Exito");
                     Menu.rcc.uTabla(datosC.getDui());
+                    factura(fecha, abono, pendiente, flag, mora);
                     dispose();
                 }
             }
@@ -431,6 +484,37 @@ public class NuevoAbono extends javax.swing.JFrame {
     private void spAbonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spAbonoFocusLost
         // TODO add your handling code here:
     }//GEN-LAST:event_spAbonoFocusLost
+
+    private void spAbonoRecFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_spAbonoRecFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spAbonoRecFocusLost
+
+    private void spAbonoRecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spAbonoRecActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spAbonoRecActionPerformed
+
+    private void spAbonoRecKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spAbonoRecKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spAbonoRecKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Double abonar = Double.parseDouble(spAbono.getText());
+        Double recibido = Double.parseDouble(spAbonoRec.getText());
+        Double mora = Double.parseDouble(txtMora.getText());
+        Double cambio;
+        if (abonar == 0 || recibido == 0) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese los respectivos montos");
+        } else {
+            cambio = recibido - (abonar + mora);
+            if (cambio < 0) {
+                JOptionPane.showMessageDialog(this, "Monto recibido no suficiente");
+            } else {
+                lblCambio.setText(String.format("%.2f", cambio));
+                btnGuardar.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
     private Date SigP(Date fechaE, int dias) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaE);
@@ -450,9 +534,12 @@ public class NuevoAbono extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -465,8 +552,10 @@ public class NuevoAbono extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private com.toedter.calendar.JDateChooser jfecha;
+    private javax.swing.JLabel lblCambio;
     private javax.swing.JLabel lblPending;
     private javax.swing.JTextField spAbono;
+    private javax.swing.JTextField spAbonoRec;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCuota;
     private javax.swing.JTextField txtFact;
@@ -475,5 +564,21 @@ public class NuevoAbono extends javax.swing.JFrame {
     private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtProxP;
     // End of variables declaration//GEN-END:variables
+
+    private void factura(Date fecha, Double abono, Double pendiente, String flag, Double mora) {
+        Date fechaFact = fecha;
+        Double montoAbonado = abono;
+        Double pendActual = pendiente;
+        String proxPago = flag;
+        String cliente = datosC.getCliente();
+        String productos = datosC.getProducto();
+        String factura = this.factura;
+        Double cambio = Double.parseDouble(lblCambio.getText());
+        Double monto = montoAbonado + cambio;
+        Double moraa = mora;
+        FacturaAbono fact = new FacturaAbono(fechaFact, montoAbonado, pendActual, proxPago, cliente,
+                productos, factura, cambio, monto, moraa);
+        fact.setVisible(true);
+    }
 
 }
